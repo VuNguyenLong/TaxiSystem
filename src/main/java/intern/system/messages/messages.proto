@@ -1,0 +1,69 @@
+syntax='proto3';
+
+message RestResponse
+{
+	string hashed_id = 1;
+	repeated string broker_address = 4;
+}
+
+message Driver
+{
+	int32 id = 1;
+	float long = 2;
+	float lat = 3;
+	repeated int32 hash = 4;
+}
+
+message Client
+{
+	int32 id = 1;
+	repeated int32 hash = 4;
+}
+
+message Message
+{
+	enum Type
+	{
+		SELECT = 0;
+		UPDATE = 1;
+	}
+
+	Type type = 1;
+	oneof data
+	{
+		Client client = 2;
+		Driver driver = 3;
+	}
+}
+
+message Command
+{
+	oneof data
+	{
+		Client client = 1;
+		Driver driver = 2;
+	}
+}
+
+message Request
+{
+	enum Type
+	{
+		SELECT = 0;
+		UPDATE = 1;
+	}
+
+	Type type = 1;
+	repeated Command commands = 2;
+}
+
+message Locations
+{
+	repeated Driver drivers = 1;
+}
+
+message Response
+{
+	int32 client_id = 1;
+	Locations response = 2;
+}
