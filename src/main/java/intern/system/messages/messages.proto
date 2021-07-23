@@ -3,7 +3,7 @@ syntax='proto3';
 message RestResponse
 {
 	string hashed_id = 1;
-	repeated string broker_address = 4;
+	repeated string broker_address = 2;
 }
 
 message Driver
@@ -17,7 +17,7 @@ message Driver
 message Client
 {
 	int32 id = 1;
-	repeated int32 hash = 4;
+	repeated int32 hash = 2;
 }
 
 message Message

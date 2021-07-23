@@ -29,6 +29,7 @@ public class DBWorker extends Worker {
 			{
 				Request request = Request.parseFrom(record.value());
 				System.out.println(request);
+				System.out.println(request.toByteString());
 				if (request.getType() == Request.Type.SELECT)
 				{
 					for (Command command : request.getCommandsList())

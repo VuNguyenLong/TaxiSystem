@@ -27,6 +27,7 @@ public class PackingWorker extends Worker {
 
 				//this.conn.GetOrCreate(client_topic);
 				this.conn.send(response.getResponse().toByteString(), client_topic);
+				//this.conn.send(response.getResponse().toByteString(), String.valueOf(response.getClientId()));
 			}
 			catch (Exception e)
 			{

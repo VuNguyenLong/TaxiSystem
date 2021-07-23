@@ -2,32 +2,25 @@ package intern.system.controller;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
-import intern.system.api.kafka.KafkaConnection;
-import intern.system.loadbalancers.RoundRobin;
+import intern.system.SystemApplication;
+import intern.system.messages.Messages;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import intern.system.messages.Messages.*;
-
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.Properties;
 
 @RestController
 public class InfoController {
-	RoundRobin balancer;
 
-	public InfoController() throws IOException {
-		balancer = new RoundRobin("src/main/resources/kafka.properties", 1);
-	}
-
-	@PostMapping("/info")
-	public String info(@RequestParam(name="id") int id, @RequestBody String data) throws InvalidProtocolBufferException {
-		ByteString _data = ByteString.copyFromUtf8(data);
-		balancer.send(_data);
-
-		return RestResponse.newBuilder()
-				.addBrokerAddress("localhost:9092")
+	@GetMapping("/info")
+	public String info(@RequestParam(name="id") int id){
+		return Messages.RestResponse.newBuilder()
 				.setHashedId(DigestUtils.sha256Hex(String.valueOf(id)))
+				.addBrokerAddress("localhost:9092")
 				.build().toByteString().toStringUtf8();
 	}
-
 }

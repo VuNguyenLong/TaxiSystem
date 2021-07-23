@@ -24,26 +24,35 @@ public class PullingWorker extends Worker {
 
 		for (ConsumerRecord<String, ByteString> record:records)
 		{
-			Message message = Message.parseFrom(record.value());
-			if (message.getType() == Message.Type.SELECT)
+			try
 			{
-				Command command = Command.newBuilder()
-						.setClient(message.getClient())
-						.build();
-				select_builder.addCommands(command);
-
-				if (select_builder.getCommandsCount() >= select_batch_size)
+				System.out.println(record.value());
+				Message message = Message.parseFrom(record.value());
+				System.out.println(message);
+				if (message.getType() == Message.Type.SELECT)
 				{
-					this.conn.send(select_builder.build().toByteString(), this.prop.getProperty("send_topic"));
-					select_builder = Request.newBuilder();
+					Command command = Command.newBuilder()
+							.setClient(message.getClient())
+							.build();
+					select_builder.addCommands(command);
+
+					if (select_builder.getCommandsCount() >= select_batch_size)
+					{
+						this.conn.send(select_builder.build().toByteString(), this.prop.getProperty("send_topic"));
+						select_builder = Request.newBuilder();
+					}
+				}
+				else if (message.getType() == Message.Type.UPDATE)
+				{
+					Command command = Command.newBuilder()
+							.setDriver(message.getDriver())
+							.build();
+					update_builder.addCommands(command);
 				}
 			}
-			else if (message.getType() == Message.Type.UPDATE)
+			catch (Exception e)
 			{
-				Command command = Command.newBuilder()
-						.setDriver(message.getDriver())
-						.build();
-				update_builder.addCommands(command);
+				System.out.println(e.getMessage());
 			}
 		}
 

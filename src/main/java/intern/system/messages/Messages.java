@@ -30,24 +30,24 @@ public final class Messages {
         getHashedIdBytes();
 
     /**
-     * <code>repeated string broker_address = 4;</code>
+     * <code>repeated string broker_address = 2;</code>
      * @return A list containing the brokerAddress.
      */
     java.util.List<java.lang.String>
         getBrokerAddressList();
     /**
-     * <code>repeated string broker_address = 4;</code>
+     * <code>repeated string broker_address = 2;</code>
      * @return The count of brokerAddress.
      */
     int getBrokerAddressCount();
     /**
-     * <code>repeated string broker_address = 4;</code>
+     * <code>repeated string broker_address = 2;</code>
      * @param index The index of the element to return.
      * @return The brokerAddress at the given index.
      */
     java.lang.String getBrokerAddress(int index);
     /**
-     * <code>repeated string broker_address = 4;</code>
+     * <code>repeated string broker_address = 2;</code>
      * @param index The index of the value to return.
      * @return The bytes of the brokerAddress at the given index.
      */
@@ -108,7 +108,7 @@ public final class Messages {
               hashedId_ = s;
               break;
             }
-            case 34: {
+            case 18: {
               java.lang.String s = input.readStringRequireUtf8();
               if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 brokerAddress_ = new com.google.protobuf.LazyStringArrayList();
@@ -190,10 +190,10 @@ public final class Messages {
       }
     }
 
-    public static final int BROKER_ADDRESS_FIELD_NUMBER = 4;
+    public static final int BROKER_ADDRESS_FIELD_NUMBER = 2;
     private com.google.protobuf.LazyStringList brokerAddress_;
     /**
-     * <code>repeated string broker_address = 4;</code>
+     * <code>repeated string broker_address = 2;</code>
      * @return A list containing the brokerAddress.
      */
     public com.google.protobuf.ProtocolStringList
@@ -201,14 +201,14 @@ public final class Messages {
       return brokerAddress_;
     }
     /**
-     * <code>repeated string broker_address = 4;</code>
+     * <code>repeated string broker_address = 2;</code>
      * @return The count of brokerAddress.
      */
     public int getBrokerAddressCount() {
       return brokerAddress_.size();
     }
     /**
-     * <code>repeated string broker_address = 4;</code>
+     * <code>repeated string broker_address = 2;</code>
      * @param index The index of the element to return.
      * @return The brokerAddress at the given index.
      */
@@ -216,7 +216,7 @@ public final class Messages {
       return brokerAddress_.get(index);
     }
     /**
-     * <code>repeated string broker_address = 4;</code>
+     * <code>repeated string broker_address = 2;</code>
      * @param index The index of the value to return.
      * @return The bytes of the brokerAddress at the given index.
      */
@@ -243,7 +243,7 @@ public final class Messages {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, hashedId_);
       }
       for (int i = 0; i < brokerAddress_.size(); i++) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, brokerAddress_.getRaw(i));
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, brokerAddress_.getRaw(i));
       }
       unknownFields.writeTo(output);
     }
@@ -647,7 +647,7 @@ public final class Messages {
          }
       }
       /**
-       * <code>repeated string broker_address = 4;</code>
+       * <code>repeated string broker_address = 2;</code>
        * @return A list containing the brokerAddress.
        */
       public com.google.protobuf.ProtocolStringList
@@ -655,14 +655,14 @@ public final class Messages {
         return brokerAddress_.getUnmodifiableView();
       }
       /**
-       * <code>repeated string broker_address = 4;</code>
+       * <code>repeated string broker_address = 2;</code>
        * @return The count of brokerAddress.
        */
       public int getBrokerAddressCount() {
         return brokerAddress_.size();
       }
       /**
-       * <code>repeated string broker_address = 4;</code>
+       * <code>repeated string broker_address = 2;</code>
        * @param index The index of the element to return.
        * @return The brokerAddress at the given index.
        */
@@ -670,7 +670,7 @@ public final class Messages {
         return brokerAddress_.get(index);
       }
       /**
-       * <code>repeated string broker_address = 4;</code>
+       * <code>repeated string broker_address = 2;</code>
        * @param index The index of the value to return.
        * @return The bytes of the brokerAddress at the given index.
        */
@@ -679,7 +679,7 @@ public final class Messages {
         return brokerAddress_.getByteString(index);
       }
       /**
-       * <code>repeated string broker_address = 4;</code>
+       * <code>repeated string broker_address = 2;</code>
        * @param index The index to set the value at.
        * @param value The brokerAddress to set.
        * @return This builder for chaining.
@@ -695,7 +695,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated string broker_address = 4;</code>
+       * <code>repeated string broker_address = 2;</code>
        * @param value The brokerAddress to add.
        * @return This builder for chaining.
        */
@@ -710,7 +710,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated string broker_address = 4;</code>
+       * <code>repeated string broker_address = 2;</code>
        * @param values The brokerAddress to add.
        * @return This builder for chaining.
        */
@@ -723,7 +723,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated string broker_address = 4;</code>
+       * <code>repeated string broker_address = 2;</code>
        * @return This builder for chaining.
        */
       public Builder clearBrokerAddress() {
@@ -733,7 +733,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated string broker_address = 4;</code>
+       * <code>repeated string broker_address = 2;</code>
        * @param value The bytes of the brokerAddress to add.
        * @return This builder for chaining.
        */
@@ -1641,17 +1641,17 @@ public final class Messages {
     int getId();
 
     /**
-     * <code>repeated int32 hash = 4;</code>
+     * <code>repeated int32 hash = 2;</code>
      * @return A list containing the hash.
      */
     java.util.List<java.lang.Integer> getHashList();
     /**
-     * <code>repeated int32 hash = 4;</code>
+     * <code>repeated int32 hash = 2;</code>
      * @return The count of hash.
      */
     int getHashCount();
     /**
-     * <code>repeated int32 hash = 4;</code>
+     * <code>repeated int32 hash = 2;</code>
      * @param index The index of the element to return.
      * @return The hash at the given index.
      */
@@ -1709,7 +1709,7 @@ public final class Messages {
               id_ = input.readInt32();
               break;
             }
-            case 32: {
+            case 16: {
               if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 hash_ = newIntList();
                 mutable_bitField0_ |= 0x00000001;
@@ -1717,7 +1717,7 @@ public final class Messages {
               hash_.addInt(input.readInt32());
               break;
             }
-            case 34: {
+            case 18: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
               if (!((mutable_bitField0_ & 0x00000001) != 0) && input.getBytesUntilLimit() > 0) {
@@ -1776,10 +1776,10 @@ public final class Messages {
       return id_;
     }
 
-    public static final int HASH_FIELD_NUMBER = 4;
+    public static final int HASH_FIELD_NUMBER = 2;
     private com.google.protobuf.Internal.IntList hash_;
     /**
-     * <code>repeated int32 hash = 4;</code>
+     * <code>repeated int32 hash = 2;</code>
      * @return A list containing the hash.
      */
     @java.lang.Override
@@ -1788,14 +1788,14 @@ public final class Messages {
       return hash_;
     }
     /**
-     * <code>repeated int32 hash = 4;</code>
+     * <code>repeated int32 hash = 2;</code>
      * @return The count of hash.
      */
     public int getHashCount() {
       return hash_.size();
     }
     /**
-     * <code>repeated int32 hash = 4;</code>
+     * <code>repeated int32 hash = 2;</code>
      * @param index The index of the element to return.
      * @return The hash at the given index.
      */
@@ -1823,7 +1823,7 @@ public final class Messages {
         output.writeInt32(1, id_);
       }
       if (getHashList().size() > 0) {
-        output.writeUInt32NoTag(34);
+        output.writeUInt32NoTag(18);
         output.writeUInt32NoTag(hashMemoizedSerializedSize);
       }
       for (int i = 0; i < hash_.size(); i++) {
@@ -2192,7 +2192,7 @@ public final class Messages {
          }
       }
       /**
-       * <code>repeated int32 hash = 4;</code>
+       * <code>repeated int32 hash = 2;</code>
        * @return A list containing the hash.
        */
       public java.util.List<java.lang.Integer>
@@ -2201,14 +2201,14 @@ public final class Messages {
                  java.util.Collections.unmodifiableList(hash_) : hash_;
       }
       /**
-       * <code>repeated int32 hash = 4;</code>
+       * <code>repeated int32 hash = 2;</code>
        * @return The count of hash.
        */
       public int getHashCount() {
         return hash_.size();
       }
       /**
-       * <code>repeated int32 hash = 4;</code>
+       * <code>repeated int32 hash = 2;</code>
        * @param index The index of the element to return.
        * @return The hash at the given index.
        */
@@ -2216,7 +2216,7 @@ public final class Messages {
         return hash_.getInt(index);
       }
       /**
-       * <code>repeated int32 hash = 4;</code>
+       * <code>repeated int32 hash = 2;</code>
        * @param index The index to set the value at.
        * @param value The hash to set.
        * @return This builder for chaining.
@@ -2229,7 +2229,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated int32 hash = 4;</code>
+       * <code>repeated int32 hash = 2;</code>
        * @param value The hash to add.
        * @return This builder for chaining.
        */
@@ -2240,7 +2240,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated int32 hash = 4;</code>
+       * <code>repeated int32 hash = 2;</code>
        * @param values The hash to add.
        * @return This builder for chaining.
        */
@@ -2253,7 +2253,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated int32 hash = 4;</code>
+       * <code>repeated int32 hash = 2;</code>
        * @return This builder for chaining.
        */
       public Builder clearHash() {
@@ -6966,10 +6966,10 @@ public final class Messages {
   static {
     java.lang.String[] descriptorData = {
       "\n\016messages.proto\"9\n\014RestResponse\022\021\n\thash" +
-      "ed_id\030\001 \001(\t\022\026\n\016broker_address\030\004 \003(\t\"=\n\006D" +
+      "ed_id\030\001 \001(\t\022\026\n\016broker_address\030\002 \003(\t\"=\n\006D" +
       "river\022\n\n\002id\030\001 \001(\005\022\014\n\004long\030\002 \001(\002\022\013\n\003lat\030\003" +
       " \001(\002\022\014\n\004hash\030\004 \003(\005\"\"\n\006Client\022\n\n\002id\030\001 \001(\005" +
-      "\022\014\n\004hash\030\004 \003(\005\"\204\001\n\007Message\022\033\n\004type\030\001 \001(\016" +
+      "\022\014\n\004hash\030\002 \003(\005\"\204\001\n\007Message\022\033\n\004type\030\001 \001(\016" +
       "2\r.Message.Type\022\031\n\006client\030\002 \001(\0132\007.Client" +
       "H\000\022\031\n\006driver\030\003 \001(\0132\007.DriverH\000\"\036\n\004Type\022\n\n" +
       "\006SELECT\020\000\022\n\n\006UPDATE\020\001B\006\n\004data\"G\n\007Command" +
