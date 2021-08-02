@@ -824,21 +824,21 @@ public final class Messages {
     float getLat();
 
     /**
-     * <code>repeated int32 hash = 4;</code>
+     * <code>repeated uint64 hash = 4;</code>
      * @return A list containing the hash.
      */
-    java.util.List<java.lang.Integer> getHashList();
+    java.util.List<java.lang.Long> getHashList();
     /**
-     * <code>repeated int32 hash = 4;</code>
+     * <code>repeated uint64 hash = 4;</code>
      * @return The count of hash.
      */
     int getHashCount();
     /**
-     * <code>repeated int32 hash = 4;</code>
+     * <code>repeated uint64 hash = 4;</code>
      * @param index The index of the element to return.
      * @return The hash at the given index.
      */
-    int getHash(int index);
+    long getHash(int index);
   }
   /**
    * Protobuf type {@code Driver}
@@ -853,7 +853,7 @@ public final class Messages {
       super(builder);
     }
     private Driver() {
-      hash_ = emptyIntList();
+      hash_ = emptyLongList();
     }
 
     @java.lang.Override
@@ -904,21 +904,21 @@ public final class Messages {
             }
             case 32: {
               if (!((mutable_bitField0_ & 0x00000001) != 0)) {
-                hash_ = newIntList();
+                hash_ = newLongList();
                 mutable_bitField0_ |= 0x00000001;
               }
-              hash_.addInt(input.readInt32());
+              hash_.addLong(input.readUInt64());
               break;
             }
             case 34: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
               if (!((mutable_bitField0_ & 0x00000001) != 0) && input.getBytesUntilLimit() > 0) {
-                hash_ = newIntList();
+                hash_ = newLongList();
                 mutable_bitField0_ |= 0x00000001;
               }
               while (input.getBytesUntilLimit() > 0) {
-                hash_.addInt(input.readInt32());
+                hash_.addLong(input.readUInt64());
               }
               input.popLimit(limit);
               break;
@@ -992,30 +992,30 @@ public final class Messages {
     }
 
     public static final int HASH_FIELD_NUMBER = 4;
-    private com.google.protobuf.Internal.IntList hash_;
+    private com.google.protobuf.Internal.LongList hash_;
     /**
-     * <code>repeated int32 hash = 4;</code>
+     * <code>repeated uint64 hash = 4;</code>
      * @return A list containing the hash.
      */
     @java.lang.Override
-    public java.util.List<java.lang.Integer>
+    public java.util.List<java.lang.Long>
         getHashList() {
       return hash_;
     }
     /**
-     * <code>repeated int32 hash = 4;</code>
+     * <code>repeated uint64 hash = 4;</code>
      * @return The count of hash.
      */
     public int getHashCount() {
       return hash_.size();
     }
     /**
-     * <code>repeated int32 hash = 4;</code>
+     * <code>repeated uint64 hash = 4;</code>
      * @param index The index of the element to return.
      * @return The hash at the given index.
      */
-    public int getHash(int index) {
-      return hash_.getInt(index);
+    public long getHash(int index) {
+      return hash_.getLong(index);
     }
     private int hashMemoizedSerializedSize = -1;
 
@@ -1048,7 +1048,7 @@ public final class Messages {
         output.writeUInt32NoTag(hashMemoizedSerializedSize);
       }
       for (int i = 0; i < hash_.size(); i++) {
-        output.writeInt32NoTag(hash_.getInt(i));
+        output.writeUInt64NoTag(hash_.getLong(i));
       }
       unknownFields.writeTo(output);
     }
@@ -1075,7 +1075,7 @@ public final class Messages {
         int dataSize = 0;
         for (int i = 0; i < hash_.size(); i++) {
           dataSize += com.google.protobuf.CodedOutputStream
-            .computeInt32SizeNoTag(hash_.getInt(i));
+            .computeUInt64SizeNoTag(hash_.getLong(i));
         }
         size += dataSize;
         if (!getHashList().isEmpty()) {
@@ -1272,7 +1272,7 @@ public final class Messages {
 
         lat_ = 0F;
 
-        hash_ = emptyIntList();
+        hash_ = emptyLongList();
         bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
@@ -1499,7 +1499,7 @@ public final class Messages {
         return this;
       }
 
-      private com.google.protobuf.Internal.IntList hash_ = emptyIntList();
+      private com.google.protobuf.Internal.LongList hash_ = emptyLongList();
       private void ensureHashIsMutable() {
         if (!((bitField0_ & 0x00000001) != 0)) {
           hash_ = mutableCopy(hash_);
@@ -1507,60 +1507,60 @@ public final class Messages {
          }
       }
       /**
-       * <code>repeated int32 hash = 4;</code>
+       * <code>repeated uint64 hash = 4;</code>
        * @return A list containing the hash.
        */
-      public java.util.List<java.lang.Integer>
+      public java.util.List<java.lang.Long>
           getHashList() {
         return ((bitField0_ & 0x00000001) != 0) ?
                  java.util.Collections.unmodifiableList(hash_) : hash_;
       }
       /**
-       * <code>repeated int32 hash = 4;</code>
+       * <code>repeated uint64 hash = 4;</code>
        * @return The count of hash.
        */
       public int getHashCount() {
         return hash_.size();
       }
       /**
-       * <code>repeated int32 hash = 4;</code>
+       * <code>repeated uint64 hash = 4;</code>
        * @param index The index of the element to return.
        * @return The hash at the given index.
        */
-      public int getHash(int index) {
-        return hash_.getInt(index);
+      public long getHash(int index) {
+        return hash_.getLong(index);
       }
       /**
-       * <code>repeated int32 hash = 4;</code>
+       * <code>repeated uint64 hash = 4;</code>
        * @param index The index to set the value at.
        * @param value The hash to set.
        * @return This builder for chaining.
        */
       public Builder setHash(
-          int index, int value) {
+          int index, long value) {
         ensureHashIsMutable();
-        hash_.setInt(index, value);
+        hash_.setLong(index, value);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated int32 hash = 4;</code>
+       * <code>repeated uint64 hash = 4;</code>
        * @param value The hash to add.
        * @return This builder for chaining.
        */
-      public Builder addHash(int value) {
+      public Builder addHash(long value) {
         ensureHashIsMutable();
-        hash_.addInt(value);
+        hash_.addLong(value);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated int32 hash = 4;</code>
+       * <code>repeated uint64 hash = 4;</code>
        * @param values The hash to add.
        * @return This builder for chaining.
        */
       public Builder addAllHash(
-          java.lang.Iterable<? extends java.lang.Integer> values) {
+          java.lang.Iterable<? extends java.lang.Long> values) {
         ensureHashIsMutable();
         com.google.protobuf.AbstractMessageLite.Builder.addAll(
             values, hash_);
@@ -1568,11 +1568,11 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated int32 hash = 4;</code>
+       * <code>repeated uint64 hash = 4;</code>
        * @return This builder for chaining.
        */
       public Builder clearHash() {
-        hash_ = emptyIntList();
+        hash_ = emptyLongList();
         bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
@@ -1641,21 +1641,21 @@ public final class Messages {
     int getId();
 
     /**
-     * <code>repeated int32 hash = 2;</code>
+     * <code>repeated uint64 hash = 2;</code>
      * @return A list containing the hash.
      */
-    java.util.List<java.lang.Integer> getHashList();
+    java.util.List<java.lang.Long> getHashList();
     /**
-     * <code>repeated int32 hash = 2;</code>
+     * <code>repeated uint64 hash = 2;</code>
      * @return The count of hash.
      */
     int getHashCount();
     /**
-     * <code>repeated int32 hash = 2;</code>
+     * <code>repeated uint64 hash = 2;</code>
      * @param index The index of the element to return.
      * @return The hash at the given index.
      */
-    int getHash(int index);
+    long getHash(int index);
   }
   /**
    * Protobuf type {@code Client}
@@ -1670,7 +1670,7 @@ public final class Messages {
       super(builder);
     }
     private Client() {
-      hash_ = emptyIntList();
+      hash_ = emptyLongList();
     }
 
     @java.lang.Override
@@ -1711,21 +1711,21 @@ public final class Messages {
             }
             case 16: {
               if (!((mutable_bitField0_ & 0x00000001) != 0)) {
-                hash_ = newIntList();
+                hash_ = newLongList();
                 mutable_bitField0_ |= 0x00000001;
               }
-              hash_.addInt(input.readInt32());
+              hash_.addLong(input.readUInt64());
               break;
             }
             case 18: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
               if (!((mutable_bitField0_ & 0x00000001) != 0) && input.getBytesUntilLimit() > 0) {
-                hash_ = newIntList();
+                hash_ = newLongList();
                 mutable_bitField0_ |= 0x00000001;
               }
               while (input.getBytesUntilLimit() > 0) {
-                hash_.addInt(input.readInt32());
+                hash_.addLong(input.readUInt64());
               }
               input.popLimit(limit);
               break;
@@ -1777,30 +1777,30 @@ public final class Messages {
     }
 
     public static final int HASH_FIELD_NUMBER = 2;
-    private com.google.protobuf.Internal.IntList hash_;
+    private com.google.protobuf.Internal.LongList hash_;
     /**
-     * <code>repeated int32 hash = 2;</code>
+     * <code>repeated uint64 hash = 2;</code>
      * @return A list containing the hash.
      */
     @java.lang.Override
-    public java.util.List<java.lang.Integer>
+    public java.util.List<java.lang.Long>
         getHashList() {
       return hash_;
     }
     /**
-     * <code>repeated int32 hash = 2;</code>
+     * <code>repeated uint64 hash = 2;</code>
      * @return The count of hash.
      */
     public int getHashCount() {
       return hash_.size();
     }
     /**
-     * <code>repeated int32 hash = 2;</code>
+     * <code>repeated uint64 hash = 2;</code>
      * @param index The index of the element to return.
      * @return The hash at the given index.
      */
-    public int getHash(int index) {
-      return hash_.getInt(index);
+    public long getHash(int index) {
+      return hash_.getLong(index);
     }
     private int hashMemoizedSerializedSize = -1;
 
@@ -1827,7 +1827,7 @@ public final class Messages {
         output.writeUInt32NoTag(hashMemoizedSerializedSize);
       }
       for (int i = 0; i < hash_.size(); i++) {
-        output.writeInt32NoTag(hash_.getInt(i));
+        output.writeUInt64NoTag(hash_.getLong(i));
       }
       unknownFields.writeTo(output);
     }
@@ -1846,7 +1846,7 @@ public final class Messages {
         int dataSize = 0;
         for (int i = 0; i < hash_.size(); i++) {
           dataSize += com.google.protobuf.CodedOutputStream
-            .computeInt32SizeNoTag(hash_.getInt(i));
+            .computeUInt64SizeNoTag(hash_.getLong(i));
         }
         size += dataSize;
         if (!getHashList().isEmpty()) {
@@ -2027,7 +2027,7 @@ public final class Messages {
         super.clear();
         id_ = 0;
 
-        hash_ = emptyIntList();
+        hash_ = emptyLongList();
         bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
@@ -2184,7 +2184,7 @@ public final class Messages {
         return this;
       }
 
-      private com.google.protobuf.Internal.IntList hash_ = emptyIntList();
+      private com.google.protobuf.Internal.LongList hash_ = emptyLongList();
       private void ensureHashIsMutable() {
         if (!((bitField0_ & 0x00000001) != 0)) {
           hash_ = mutableCopy(hash_);
@@ -2192,60 +2192,60 @@ public final class Messages {
          }
       }
       /**
-       * <code>repeated int32 hash = 2;</code>
+       * <code>repeated uint64 hash = 2;</code>
        * @return A list containing the hash.
        */
-      public java.util.List<java.lang.Integer>
+      public java.util.List<java.lang.Long>
           getHashList() {
         return ((bitField0_ & 0x00000001) != 0) ?
                  java.util.Collections.unmodifiableList(hash_) : hash_;
       }
       /**
-       * <code>repeated int32 hash = 2;</code>
+       * <code>repeated uint64 hash = 2;</code>
        * @return The count of hash.
        */
       public int getHashCount() {
         return hash_.size();
       }
       /**
-       * <code>repeated int32 hash = 2;</code>
+       * <code>repeated uint64 hash = 2;</code>
        * @param index The index of the element to return.
        * @return The hash at the given index.
        */
-      public int getHash(int index) {
-        return hash_.getInt(index);
+      public long getHash(int index) {
+        return hash_.getLong(index);
       }
       /**
-       * <code>repeated int32 hash = 2;</code>
+       * <code>repeated uint64 hash = 2;</code>
        * @param index The index to set the value at.
        * @param value The hash to set.
        * @return This builder for chaining.
        */
       public Builder setHash(
-          int index, int value) {
+          int index, long value) {
         ensureHashIsMutable();
-        hash_.setInt(index, value);
+        hash_.setLong(index, value);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated int32 hash = 2;</code>
+       * <code>repeated uint64 hash = 2;</code>
        * @param value The hash to add.
        * @return This builder for chaining.
        */
-      public Builder addHash(int value) {
+      public Builder addHash(long value) {
         ensureHashIsMutable();
-        hash_.addInt(value);
+        hash_.addLong(value);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated int32 hash = 2;</code>
+       * <code>repeated uint64 hash = 2;</code>
        * @param values The hash to add.
        * @return This builder for chaining.
        */
       public Builder addAllHash(
-          java.lang.Iterable<? extends java.lang.Integer> values) {
+          java.lang.Iterable<? extends java.lang.Long> values) {
         ensureHashIsMutable();
         com.google.protobuf.AbstractMessageLite.Builder.addAll(
             values, hash_);
@@ -2253,11 +2253,11 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated int32 hash = 2;</code>
+       * <code>repeated uint64 hash = 2;</code>
        * @return This builder for chaining.
        */
       public Builder clearHash() {
-        hash_ = emptyIntList();
+        hash_ = emptyLongList();
         bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
@@ -6249,6 +6249,18 @@ public final class Messages {
      * <code>.Locations response = 2;</code>
      */
     Messages.LocationsOrBuilder getResponseOrBuilder();
+
+    /**
+     * <code>string timestamp = 3;</code>
+     * @return The timestamp.
+     */
+    java.lang.String getTimestamp();
+    /**
+     * <code>string timestamp = 3;</code>
+     * @return The bytes for timestamp.
+     */
+    com.google.protobuf.ByteString
+        getTimestampBytes();
   }
   /**
    * Protobuf type {@code Response}
@@ -6263,6 +6275,7 @@ public final class Messages {
       super(builder);
     }
     private Response() {
+      timestamp_ = "";
     }
 
     @java.lang.Override
@@ -6311,6 +6324,12 @@ public final class Messages {
                 response_ = subBuilder.buildPartial();
               }
 
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              timestamp_ = s;
               break;
             }
             default: {
@@ -6382,6 +6401,44 @@ public final class Messages {
       return getResponse();
     }
 
+    public static final int TIMESTAMP_FIELD_NUMBER = 3;
+    private volatile java.lang.Object timestamp_;
+    /**
+     * <code>string timestamp = 3;</code>
+     * @return The timestamp.
+     */
+    @java.lang.Override
+    public java.lang.String getTimestamp() {
+      java.lang.Object ref = timestamp_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        timestamp_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string timestamp = 3;</code>
+     * @return The bytes for timestamp.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getTimestampBytes() {
+      java.lang.Object ref = timestamp_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        timestamp_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -6402,6 +6459,9 @@ public final class Messages {
       if (response_ != null) {
         output.writeMessage(2, getResponse());
       }
+      if (!getTimestampBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, timestamp_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -6418,6 +6478,9 @@ public final class Messages {
       if (response_ != null) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, getResponse());
+      }
+      if (!getTimestampBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, timestamp_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -6441,6 +6504,8 @@ public final class Messages {
         if (!getResponse()
             .equals(other.getResponse())) return false;
       }
+      if (!getTimestamp()
+          .equals(other.getTimestamp())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -6458,6 +6523,8 @@ public final class Messages {
         hash = (37 * hash) + RESPONSE_FIELD_NUMBER;
         hash = (53 * hash) + getResponse().hashCode();
       }
+      hash = (37 * hash) + TIMESTAMP_FIELD_NUMBER;
+      hash = (53 * hash) + getTimestamp().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -6599,6 +6666,8 @@ public final class Messages {
           response_ = null;
           responseBuilder_ = null;
         }
+        timestamp_ = "";
+
         return this;
       }
 
@@ -6631,6 +6700,7 @@ public final class Messages {
         } else {
           result.response_ = responseBuilder_.build();
         }
+        result.timestamp_ = timestamp_;
         onBuilt();
         return result;
       }
@@ -6684,6 +6754,10 @@ public final class Messages {
         }
         if (other.hasResponse()) {
           mergeResponse(other.getResponse());
+        }
+        if (!other.getTimestamp().isEmpty()) {
+          timestamp_ = other.timestamp_;
+          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -6863,6 +6937,82 @@ public final class Messages {
         }
         return responseBuilder_;
       }
+
+      private java.lang.Object timestamp_ = "";
+      /**
+       * <code>string timestamp = 3;</code>
+       * @return The timestamp.
+       */
+      public java.lang.String getTimestamp() {
+        java.lang.Object ref = timestamp_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          timestamp_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string timestamp = 3;</code>
+       * @return The bytes for timestamp.
+       */
+      public com.google.protobuf.ByteString
+          getTimestampBytes() {
+        java.lang.Object ref = timestamp_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          timestamp_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string timestamp = 3;</code>
+       * @param value The timestamp to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTimestamp(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        timestamp_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string timestamp = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearTimestamp() {
+        
+        timestamp_ = getDefaultInstance().getTimestamp();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string timestamp = 3;</code>
+       * @param value The bytes for timestamp to set.
+       * @return This builder for chaining.
+       */
+      public Builder setTimestampBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        timestamp_ = value;
+        onChanged();
+        return this;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -6968,8 +7118,8 @@ public final class Messages {
       "\n\016messages.proto\"9\n\014RestResponse\022\021\n\thash" +
       "ed_id\030\001 \001(\t\022\026\n\016broker_address\030\002 \003(\t\"=\n\006D" +
       "river\022\n\n\002id\030\001 \001(\005\022\014\n\004long\030\002 \001(\002\022\013\n\003lat\030\003" +
-      " \001(\002\022\014\n\004hash\030\004 \003(\005\"\"\n\006Client\022\n\n\002id\030\001 \001(\005" +
-      "\022\014\n\004hash\030\002 \003(\005\"\204\001\n\007Message\022\033\n\004type\030\001 \001(\016" +
+      " \001(\002\022\014\n\004hash\030\004 \003(\004\"\"\n\006Client\022\n\n\002id\030\001 \001(\005" +
+      "\022\014\n\004hash\030\002 \003(\004\"\204\001\n\007Message\022\033\n\004type\030\001 \001(\016" +
       "2\r.Message.Type\022\031\n\006client\030\002 \001(\0132\007.Client" +
       "H\000\022\031\n\006driver\030\003 \001(\0132\007.DriverH\000\"\036\n\004Type\022\n\n" +
       "\006SELECT\020\000\022\n\n\006UPDATE\020\001B\006\n\004data\"G\n\007Command" +
@@ -6978,8 +7128,9 @@ public final class Messages {
       "e\030\001 \001(\0162\r.Request.Type\022\032\n\010commands\030\002 \003(\013" +
       "2\010.Command\"\036\n\004Type\022\n\n\006SELECT\020\000\022\n\n\006UPDATE" +
       "\020\001\"%\n\tLocations\022\030\n\007drivers\030\001 \003(\0132\007.Drive" +
-      "r\";\n\010Response\022\021\n\tclient_id\030\001 \001(\005\022\034\n\010resp" +
-      "onse\030\002 \001(\0132\n.Locationsb\006proto3"
+      "r\"N\n\010Response\022\021\n\tclient_id\030\001 \001(\005\022\034\n\010resp" +
+      "onse\030\002 \001(\0132\n.Locations\022\021\n\ttimestamp\030\003 \001(" +
+      "\tb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -7032,7 +7183,7 @@ public final class Messages {
     internal_static_Response_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Response_descriptor,
-        new java.lang.String[] { "ClientId", "Response", });
+        new java.lang.String[] { "ClientId", "Response", "Timestamp", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

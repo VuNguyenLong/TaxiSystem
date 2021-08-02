@@ -11,12 +11,12 @@ public abstract class Worker {
 	Properties prop;
 	KafkaConnection conn;
 
-	public Worker(String properties, String kafka_properties) throws IOException
+	public Worker(String properties) throws IOException
 	{
 		prop = new Properties();
 		prop.load(new FileReader(properties));
 
-		conn = new KafkaConnection(kafka_properties);
+		conn = new KafkaConnection();
 	}
 
 	public abstract void DoWork() throws InvalidProtocolBufferException;

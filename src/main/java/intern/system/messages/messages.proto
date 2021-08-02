@@ -11,13 +11,13 @@ message Driver
 	int32 id = 1;
 	float long = 2;
 	float lat = 3;
-	repeated int32 hash = 4;
+	repeated uint64 hash = 4;
 }
 
 message Client
 {
 	int32 id = 1;
-	repeated int32 hash = 2;
+	repeated uint64 hash = 2;
 }
 
 message Message
@@ -66,4 +66,5 @@ message Response
 {
 	int32 client_id = 1;
 	Locations response = 2;
+	string timestamp = 3;
 }

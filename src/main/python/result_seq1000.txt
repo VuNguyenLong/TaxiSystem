@@ -1,0 +1,29 @@
+       partial request  full request
+count       100.000000    100.000000
+mean          0.382404      0.898690
+std           0.060621      0.077596
+min           0.237810      0.754926
+25%           0.355367      0.845746
+50%           0.363677      0.881091
+75%           0.389763      0.943893
+max           0.566244      1.243245
+
+99% results will fall into the range between
+partial request [0.237810, 0.566244]
+full request    [0.715, 1.243245]
+
+
+V2 results
+       partial request  full request
+count      1000.000000   1000.000000
+mean          0.284588      1.091648
+std           0.057015      0.188167
+min           0.119283      0.692183
+25%           0.238541      1.009433
+50%           0.252023      1.072321
+75%           0.346560      1.138461
+max           0.501759      2.727856
+
+99% results will fall into the range between
+partial request [0.119283, 0.501759]
+full request    [0.527, 1.656]

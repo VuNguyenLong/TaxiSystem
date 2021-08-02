@@ -19,10 +19,10 @@ public class KafkaConnection {
 	KafkaProducer<String, ByteString> producer;
 	KafkaConsumer<String, ByteString> consumer;
 
-	public KafkaConnection(String file_name) throws IOException
+	public KafkaConnection() throws IOException
 	{
 		prop = new Properties();
-		prop.load(new FileReader(file_name));
+		prop.load(new FileReader("config/kafka.properties"));
 
 		producer = new KafkaProducer<>(this.prop);
 		consumer = new KafkaConsumer<>(this.prop);

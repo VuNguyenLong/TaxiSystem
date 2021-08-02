@@ -1,7 +1,8 @@
 package intern.system.workers;
 
 import com.google.protobuf.ByteString;
-import com.google.protobuf.InvalidProtocolBufferException;
+import intern.system.loadbalancers.LoadBalancer;
+import intern.system.loadbalancers.RoundRobin;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 
@@ -10,15 +11,18 @@ import java.io.IOException;
 import intern.system.messages.Messages.*;
 
 public class PullingWorker extends Worker {
-	public PullingWorker(String properties, String kafka_properties) throws IOException {
-		super(properties, kafka_properties);
+	LoadBalancer balancer;
+	public PullingWorker(String properties) throws IOException {
+		super(properties);
+		balancer = new RoundRobin(1, "db");
 	}
 
 	@Override
-	public void DoWork() throws InvalidProtocolBufferException {
+	public void DoWork(){
 		ConsumerRecords<String, ByteString> records = this.conn.receive(this.prop.getProperty("receive_topic"));
 
 		int select_batch_size = Integer.parseInt(this.prop.getProperty("select_batch_size"));
+		int update_batch_size = Integer.parseInt(this.prop.getProperty("update_batch_size"));
 		Request.Builder select_builder = Request.newBuilder();
 		Request.Builder update_builder = Request.newBuilder();
 
@@ -26,9 +30,7 @@ public class PullingWorker extends Worker {
 		{
 			try
 			{
-				System.out.println(record.value());
 				Message message = Message.parseFrom(record.value());
-				System.out.println(message);
 				if (message.getType() == Message.Type.SELECT)
 				{
 					Command command = Command.newBuilder()
@@ -38,7 +40,7 @@ public class PullingWorker extends Worker {
 
 					if (select_builder.getCommandsCount() >= select_batch_size)
 					{
-						this.conn.send(select_builder.build().toByteString(), this.prop.getProperty("send_topic"));
+						balancer.send(select_builder.build().toByteString());
 						select_builder = Request.newBuilder();
 					}
 				}
@@ -48,6 +50,12 @@ public class PullingWorker extends Worker {
 							.setDriver(message.getDriver())
 							.build();
 					update_builder.addCommands(command);
+
+					if (update_builder.getCommandsCount() >= update_batch_size)
+					{
+						balancer.send(update_builder.build().toByteString());
+						update_builder = Request.newBuilder();
+					}
 				}
 			}
 			catch (Exception e)
@@ -55,8 +63,10 @@ public class PullingWorker extends Worker {
 				System.out.println(e.getMessage());
 			}
 		}
+		if (select_builder.getCommandsCount() > 0)
+			balancer.send(select_builder.build().toByteString());
 
-		this.conn.send(select_builder.build().toByteString(), this.prop.getProperty("send_topic"));
-		this.conn.send(update_builder.build().toByteString(), this.prop.getProperty("send_topic"));
+		if (update_builder.getCommandsCount() > 0)
+			balancer.send(update_builder.build().toByteString());
 	}
 }

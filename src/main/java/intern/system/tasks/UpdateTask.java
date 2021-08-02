@@ -3,17 +3,16 @@ package intern.system.tasks;
 import intern.system.api.kafka.KafkaConnection;
 import intern.system.api.postgre.PostgreQuery;
 import intern.system.messages.Messages;
-import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.IOException;
-import java.sql.*;
+import java.sql.SQLException;
 
-public class DBTask implements Runnable{
-	Messages.Command comm;
+public class UpdateTask implements Runnable{
+	Messages.Request comm;
 	PostgreQuery db_connector;
 	KafkaConnection conn;
 
-	public DBTask(Messages.Command comm, KafkaConnection conn) throws SQLException, IOException {
+	public UpdateTask(Messages.Request comm, KafkaConnection conn) throws SQLException, IOException {
 		this.comm = comm;
 		this.conn = conn;
 		db_connector = new PostgreQuery();
@@ -23,8 +22,7 @@ public class DBTask implements Runnable{
 	public void run() {
 		try
 		{
-			String client_topic = DigestUtils.sha256Hex(String.valueOf(comm.getClient().getId()));
-			this.conn.send(db_connector.Query(comm).toByteString(), "benchmark");
+			db_connector.Update(this.comm);
 			this.db_connector.close();
 		}
 		catch (SQLException e) {

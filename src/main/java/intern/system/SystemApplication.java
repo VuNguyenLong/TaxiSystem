@@ -10,9 +10,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SystemApplication {
 
 	public static void main(String[] args) throws InvalidProtocolBufferException {
-		//Messages.Message a = Messages.Message.newBuilder().setClient(Messages.Client.newBuilder().setId(128).addHash(1).build()).build();
-		//Messages.Message.parseFrom(a.toByteString());
-		//System.out.println(a.toByteString());
 		SpringApplication.run(SystemApplication.class, args);
 	}
 

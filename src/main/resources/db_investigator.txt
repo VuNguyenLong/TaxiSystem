@@ -1,0 +1,111 @@
+/*Normal approach ~ 700ms*/
+explain analyse select l.driver_id, l.long, l.lat
+	from (
+		select * from Locations
+		where hash_0 = 590027007803260927
+	) l inner join (
+        select driver_id, max(time_stamp) as max_time
+        from Locations group by driver_id
+    ) lt on l.driver_id = lt.driver_id
+where l.time_stamp = lt.max_time;
+
+explain analyse select l.driver_id, l.long, l.lat
+	from Locations l inner join (
+        select driver_id, max(time_stamp) as max_time
+        from Locations group by driver_id
+    ) lt on l.driver_id = lt.driver_id
+where l.time_stamp = lt.max_time and hash_0 = 590027007803260927;
+
+
+/*Materialized approach ~ 200ms*/
+explain analyse select l.driver_id, l.long, l.lat
+	from (
+		select * from Locations
+		where hash_0 = 590027007803260927
+	) l inner join (
+        select * from driver_view
+    ) lt on l.driver_id = lt.driver_id
+where l.time_stamp = lt.max_time;
+
+explain analyse select l.driver_id, l.long, l.lat
+	from Locations l inner join (
+        select * from driver_view
+    ) lt on l.driver_id = lt.driver_id
+where l.time_stamp = lt.max_time and hash_0 = 590027007803260927;
+/***********************************/
+
+
+/*Table approach*/
+explain analyse select l.driver_id, l.long, l.lat
+	from Locations l inner join (
+        select * from tmp
+    ) lt on l.driver_id = lt.driver_id
+where l.time_stamp = lt.max_time and hash_0 = 590027007803260927;
+
+create table tmp
+as select driver_id, max(time_stamp) as max_time
+	from Locations group by driver_id;
+	
+create table WAL
+as select * from tmp limit 10;
+
+insert into WAL values(1, '7/28/2021');
+select * from WAL;
+
+create index wal_driver_id_index
+	on WAL using hash(driver_id);
+	
+create index tmp_driver_id_index
+	on tmp using hash(driver_id);
+
+explain analyse update tmp
+set max_time = WAL.max_time
+from WAL
+where tmp.driver_id = WAL.driver_id;
+
+
+/*Aggregating operation effect*/
+explain analyse select driver_id, max(time_stamp) as max_time
+        from Locations group by driver_id;
+		
+explain analyse select count(*) from Locations group by driver_id;
+
+explain analyse select * from driver_view;
+
+
+/*Create a materialized view*/
+create materialized view driver_view as
+	select driver_id, max(time_stamp) as max_time
+	from Locations group by driver_id;
+	
+create unique index driver_view_index
+	on driver_view using btree (driver_id);
+/***************************/
+
+create index hash_index
+    on Locations using hash (hash_0);
+
+create index driver_id_index
+    on Locations using btree (driver_id);
+
+create index timestamp_index
+    on Locations using brin (time_stamp);
+
+create index driver_timestamp_index
+    on Locations using brin (driver_id, time_stamp);
+
+create index timestamp_location_index
+    on Locations using brin(time_stamp, hash_0);
+
+refresh materialized view concurrently driver_view;
+
+drop index hash_index;
+drop index driver_id_index;
+drop index timestamp_index;
+drop index driver_timestamp_index;
+drop index timestamp_location_index;
+drop trigger update_trigger on Locations;
+drop function update_func();
+drop materialized view driver_view;
+
+select hash_0, count(*) as n from Locations group by hash_0 order by n desc;

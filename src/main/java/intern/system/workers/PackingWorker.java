@@ -10,12 +10,12 @@ import org.apache.commons.codec.digest.DigestUtils;
 import java.io.IOException;
 
 public class PackingWorker extends Worker {
-	public PackingWorker(String properties, String kafka_properties) throws IOException {
-		super(properties, kafka_properties);
+	public PackingWorker(String properties) throws IOException {
+		super(properties);
 	}
 
 	@Override
-	public void DoWork() throws InvalidProtocolBufferException {
+	public void DoWork(){
 		ConsumerRecords<String, ByteString> records = this.conn.receive(this.prop.getProperty("response_topic"));
 		records.forEach(record -> {
 			try
