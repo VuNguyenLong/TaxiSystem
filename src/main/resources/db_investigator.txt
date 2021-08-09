@@ -37,31 +37,9 @@ where l.time_stamp = lt.max_time and hash_0 = 590027007803260927;
 
 /*Table approach*/
 explain analyse select l.driver_id, l.long, l.lat
-	from Locations l inner join (
-        select * from tmp
-    ) lt on l.driver_id = lt.driver_id
+	from Locations l inner join driver_table_view lt
+	on l.driver_id = lt.driver_id
 where l.time_stamp = lt.max_time and hash_0 = 590027007803260927;
-
-create table tmp
-as select driver_id, max(time_stamp) as max_time
-	from Locations group by driver_id;
-	
-create table WAL
-as select * from tmp limit 10;
-
-insert into WAL values(1, '7/28/2021');
-select * from WAL;
-
-create index wal_driver_id_index
-	on WAL using hash(driver_id);
-	
-create index tmp_driver_id_index
-	on tmp using hash(driver_id);
-
-explain analyse update tmp
-set max_time = WAL.max_time
-from WAL
-where tmp.driver_id = WAL.driver_id;
 
 
 /*Aggregating operation effect*/
@@ -81,6 +59,45 @@ create materialized view driver_view as
 create unique index driver_view_index
 	on driver_view using btree (driver_id);
 /***************************/
+
+/* Create update_function */
+create or replace function update_driver_view (n int)
+returns table(changed_rows bigint)
+language plpgsql
+as
+$$
+begin
+
+	return query
+		with rows as (
+			update driver_table_view
+			set max_time = update_list.max_time
+			from (select * from WAL where _id >= n order by _id desc) as update_list
+			where driver_table_view.driver_id = update_list.driver_id
+			returning 1
+		)
+	select count(*) from rows;
+
+end;
+$$;
+/*******************************************/
+
+/* Create trigger */
+create or replace function __log()
+returns trigger
+language plpgsql
+as 
+$$
+begin
+	insert into WAL(driver_id, max_time) values (new.driver_id, new.time_stamp);
+	return new;
+end;
+$$;
+
+create trigger wal_log after insert on sample
+for each row
+execute function __log();
+/******************/
 
 create index hash_index
     on Locations using hash (hash_0);
@@ -109,3 +126,77 @@ drop function update_func();
 drop materialized view driver_view;
 
 select hash_0, count(*) as n from Locations group by hash_0 order by n desc;
+
+
+
+
+
+
+
+
+/* Experiment on WAL performance */
+create table sample as select * from Locations limit 0;
+
+create table driver_table_view
+(
+	driver_id int primary key,
+	max_time timestamp with time zone
+);
+
+create index table_driver_id_index
+    on driver_table_view using btree (driver_id) include (max_time);
+	
+create index table_max_time_index
+    on driver_table_view using brin (max_time);
+
+
+create table WAL
+(
+	_id serial8 primary key,
+	driver_id int,
+	max_time timestamp with time zone
+);
+
+create index wal_id_index
+    on WAL using btree (_id) include (driver_id, max_time);
+
+create index wal_driver_id_index
+    on WAL using btree (driver_id) include (max_time);
+
+create index wal_max_time_index
+    on WAL using brin (max_time);
+
+insert into sample select * from Locations;
+insert into driver_table_view select Locations.driver_id, Locations.time_stamp from Locations;
+
+select update_driver_view(1998000);
+
+explain analyse update driver_table_view
+set max_time = update_list.max_time
+from (select * from WAL where _id >= 1995000 order by _id desc) as update_list
+where driver_table_view.driver_id = update_list.driver_id;
+
+explain analyse select * from WAL where _id >= 1995000 order by _id desc;
+
+
+
+select * from WAL;
+select min(_id) from WAL;
+
+delete from WAL;
+delete from sample;
+
+drop table WAL;
+drop table driver_table_view;
+drop table sample;
+
+drop index table_driver_id_index;
+drop index wal_driver_id_index;
+drop index table_max_time_index;
+drop index wal_max_time_index;
+drop index wal_driver_id_index;
+
+drop function update_driver_view;
+drop function __log;
+
+drop trigger wal_log;

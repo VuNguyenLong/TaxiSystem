@@ -13,10 +13,9 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 import intern.system.messages.Messages.*;
 
-public class DBWorker extends Worker {
+public class DBWorker extends OnlineWorker {
 	ThreadPoolExecutor pool;
 	PostgreQuery db_connector;
-	RoundRobin balancer;
 
 	public DBWorker(String properties) throws IOException, SQLException {
 		super(properties);

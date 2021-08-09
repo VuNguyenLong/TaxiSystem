@@ -12,10 +12,11 @@ import org.apache.kafka.clients.consumer.ConsumerRecords;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.ZonedDateTime;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
-public class PackDBWorker extends Worker {
+public class PackDBWorker extends OnlineWorker {
 	ThreadPoolExecutor pool;
 	PostgreQuery db_connector;
 
@@ -39,7 +40,7 @@ public class PackDBWorker extends Worker {
 			{
 				Message message = Message.parseFrom(record.value());
 				if (message.getType() == Message.Type.SELECT)
-					pool.submit(new QueryTask(message.getClient(), conn));
+					pool.submit(new QueryTask(message.getClient(), conn, db_connector));
 				else
 				{
 					Command command = Command.newBuilder()
@@ -49,7 +50,7 @@ public class PackDBWorker extends Worker {
 
 					if (update_builder.getCommandsCount() >= update_batch_size)
 					{
-						pool.submit(new UpdateTask(update_builder.build(), conn));
+						pool.submit(new UpdateTask(update_builder.build(), conn, db_connector));
 						update_builder = Request.newBuilder();
 					}
 				}
@@ -62,7 +63,7 @@ public class PackDBWorker extends Worker {
 
 		try
 		{
-			pool.submit(new UpdateTask(update_builder.build(), conn));
+			pool.submit(new UpdateTask(update_builder.build(), conn, db_connector));
 		}
 		catch (Exception e)
 		{

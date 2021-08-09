@@ -9,7 +9,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.IOException;
 
-public class PackingWorker extends Worker {
+public class PackingWorker extends OnlineWorker {
 	public PackingWorker(String properties) throws IOException {
 		super(properties);
 	}

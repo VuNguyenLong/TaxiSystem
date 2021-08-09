@@ -12,7 +12,7 @@ public class QueryController {
 	RoundRobin balancer;
 
 	public QueryController() throws IOException {
-		balancer = new RoundRobin(5, "pulling");
+		balancer = new RoundRobin(3, "pulling");
 	}
 
 	@PostMapping("/query")

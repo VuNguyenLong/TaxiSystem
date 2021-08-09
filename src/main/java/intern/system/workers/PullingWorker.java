@@ -10,7 +10,7 @@ import java.io.IOException;
 
 import intern.system.messages.Messages.*;
 
-public class PullingWorker extends Worker {
+public class PullingWorker extends OnlineWorker {
 	LoadBalancer balancer;
 	public PullingWorker(String properties) throws IOException {
 		super(properties);

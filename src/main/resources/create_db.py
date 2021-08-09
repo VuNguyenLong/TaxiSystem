@@ -1,5 +1,7 @@
 import h3.api.basic_int as h3
 import numpy as np
+import sys
+import pymongo
 
 def create_data(n):
 	c = np.arange(n)

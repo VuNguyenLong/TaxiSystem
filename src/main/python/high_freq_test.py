@@ -16,7 +16,12 @@ consumer = kafka.KafkaConsumer("benchmark", group_id='worker',
                                    bootstrap_servers=["localhost:9092"],
                                    auto_offset_reset="earliest",
                                    consumer_timeout_ms=5000)
+info = requests.get(f'http://localhost:8080/info?id={0}')
+info = RestResponse.FromString(info.content)
 
+size = 4
+full = [0] * size
+progress = [0] * size
 
 def _consumer():
     global mess_count
@@ -30,7 +35,7 @@ def _consumer():
         mess_count += 1
         interval += end - start
 
-        if mess_count >= N:
+        if mess_count >= N * size:
             break
 
         start = time.time()
@@ -39,47 +44,49 @@ import threading
 thread = threading.Thread(target=_consumer)
 thread.start()
 
-def test(mess):
-    info = requests.get(f'http://localhost:8080/info?id={mess.client.id}')
-    info = RestResponse.FromString(info.content)
 
+def test(mess):
+    global records
     records[mess.client.id] = [time.time() * 1000, 0]
     requests.post('http://localhost:8080/query', data=mess.SerializeToString())
 
-full = 0
-for i in range(N):
-    mess = Message()
-    mess.type = Message.SELECT
-    mess.client.id = i
+def multi_test(ID):
+    global full
+    global progress
+    for i in range(ID * N, (ID + 1) * N):
+        mess = Message()
+        mess.type = Message.SELECT
+        mess.client.id = i
 
-    y = np.random.uniform(low=-90, high=90)
-    x = np.random.uniform(low=-180, high=180)
-    resolution = 3
-    mess.client.hash.append(h3.geo_to_h3(x, y, resolution))
+        y = np.random.uniform(low=-90, high=90)
+        x = np.random.uniform(low=-180, high=180)
+        resolution = 3
+        mess.client.hash.append(h3.geo_to_h3(x, y, resolution))
 
-    start = time.time()
-    test(mess)
-    #time.sleep(0.01)
-    end = time.time()
+        start = time.time()
+        test(mess)
+        end = time.time()
 
-    full += end - start
+        full[ID] += end - start
+        progress[ID] += 1
 
-    print("\rf = {:.6f},\tsend_progress = {:.6f}%\treceive_progress = {}/{}".format((i + 1) / full, i / N * 100, mess_count, N), flush=True, end='')
+threads = list(map(lambda i: threading.Thread(target=multi_test, args=(i, )), range(size)))
+[i.start() for i in threads]
 
-start = time.time()
+while mess_count < N * size:
+    print('\rf = {:.6f},\tprogress = {}/{},\treceive_progress = {}/{}'
+          .format(sum(progress) / (sum(full) + 1e-6), sum(progress), N*size, mess_count, N)
+          , flush=True, end='')
+    time.sleep(0.1)
+
 print()
-while mess_count < N:
-    print('\rreceive_progress = {}/{}'.format(mess_count, N), flush=True, end='')
-    if time.time() - start > 10:
-        break
-    else:
-        time.sleep(0.1)
-print()
+[i.join() for i in threads]
 thread.join()
 print("done")
+
 data = pd.DataFrame(records).values.T
 data = pd.DataFrame(np.c_[data[:, 0], data[:, 1], data[:, 1] - data[:, 0]], columns=['start', 'end', 'delta'])
-data.to_csv(f'result_f=100_{N}_v2.csv')
+data.to_csv(f'result_n={size}_f=100_{N}_v2.csv')
 
 print(data.describe())
 plt.hist(data['delta'])

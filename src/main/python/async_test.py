@@ -9,14 +9,15 @@ import pandas as pd
 
 mess_count = 0
 interval = 0
-N = 5000
+N = 10000
 
 records = {}
 consumer = kafka.KafkaConsumer("benchmark", group_id='worker',
                                    bootstrap_servers=["localhost:9092"],
                                    auto_offset_reset="earliest",
                                    consumer_timeout_ms=5000)
-
+info = requests.get(f'http://localhost:8080/info?id={0}')
+info = RestResponse.FromString(info.content)
 
 def _consumer():
     global mess_count
@@ -25,6 +26,7 @@ def _consumer():
     for i in consumer:
         data = Response.FromString(i.value)
         records[data.client_id][1] = float(data.timestamp)
+        records[data.client_id][2] = time.time() * 1000
         end = time.time()
 
         mess_count += 1
@@ -40,10 +42,7 @@ thread = threading.Thread(target=_consumer)
 thread.start()
 
 def test(mess):
-    info = requests.get(f'http://localhost:8080/info?id={mess.client.id}')
-    info = RestResponse.FromString(info.content)
-
-    records[mess.client.id] = [time.time() * 1000, 0]
+    records[mess.client.id] = [time.time() * 1000, 0, 0]
     requests.post('http://localhost:8080/query', data=mess.SerializeToString())
 
 full = 0
@@ -78,9 +77,9 @@ print()
 thread.join()
 print("done")
 data = pd.DataFrame(records).values.T
-data = pd.DataFrame(np.c_[data[:, 0], data[:, 1], data[:, 1] - data[:, 0]], columns=['start', 'end', 'delta'])
+data = pd.DataFrame(np.c_[data[:, 0], data[:, 1], data[:, 2], data[:, 1] - data[:, 0], data[:, 2] - data[:, 0]], columns=['start', 'sys', 'actual', 'delta_sys', 'delta_actual'])
 data.to_csv(f'result_f=100_{N}_v2.csv')
 
 print(data.describe())
-plt.hist(data['delta'])
+plt.hist(data['delta_actual'])
 plt.show()

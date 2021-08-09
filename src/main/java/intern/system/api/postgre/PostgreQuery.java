@@ -107,6 +107,18 @@ public class PostgreQuery {
 		return builder.build();
 	}
 
+	public long Refresh(long n) throws SQLException
+	{
+		Statement stmt = conn.createStatement();
+		ResultSet result = stmt.executeQuery(String.format("select update_driver_view(%d)", n));
+		long i = result.getLong("update_driver_view");
+
+		result.close();
+		stmt.close();
+
+		return i;
+	}
+
 	public void close() throws SQLException
 	{
 		this.conn.close();
