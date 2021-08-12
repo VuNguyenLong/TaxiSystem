@@ -52,9 +52,9 @@ public class PostgreQuery {
 		ResultSet result = stmt.executeQuery(
 				String.format(
 						"select l.driver_id, l.long, l.lat\n" +
-						"from Locations l inner join driver_view\n" +
-						"on l.driver_id = driver_view.driver_id\n" +
-						"where l.time_stamp = driver_view.max_time and hash_0 = %d;",
+						"from Locations l inner join driver_table_view\n" +
+						"on l.driver_id = driver_table_view.driver_id\n" +
+						"where l.time_stamp = driver_table_view.max_time and hash_0 = %d;",
 						command.getClient().getHash(0)
 				)
 		);
@@ -84,9 +84,9 @@ public class PostgreQuery {
 		ResultSet result = stmt.executeQuery(
 				String.format(
 						"select l.driver_id, l.long, l.lat\n" +
-								"from Locations l inner join driver_view\n" +
-								"on l.driver_id = driver_view.driver_id\n" +
-								"where l.time_stamp = driver_view.max_time and hash_0 = %d;",
+						"from Locations l inner join driver_table_view\n" +
+						"on l.driver_id = driver_table_view.driver_id\n" +
+						"where l.time_stamp = driver_table_view.max_time and hash_0 = %d;",
 						command.getHash(0)
 				)
 		);
