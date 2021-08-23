@@ -13,10 +13,16 @@ public class QueryTask implements Runnable {
 	PostgreQuery db_connector;
 	KafkaConnection conn;
 
-	public QueryTask(Messages.Client comm, KafkaConnection conn, PostgreQuery db_connector) throws SQLException, IOException {
+	boolean is_benchmark = false;
+
+	public QueryTask(Messages.Client comm, KafkaConnection conn, PostgreQuery db_connector, String mode)
+	{
 		this.comm = comm;
 		this.conn = conn;
 		this.db_connector = db_connector;
+
+		if (mode.equals("benchmark"))
+			is_benchmark = true;
 	}
 
 	@Override
@@ -24,7 +30,9 @@ public class QueryTask implements Runnable {
 		try
 		{
 			String client_topic = DigestUtils.sha256Hex(String.valueOf(comm.getId()));
-			this.conn.send(db_connector.Query(comm).toByteString(), "benchmark");
+			if (is_benchmark)
+				client_topic = "benchmark";
+			this.conn.send(db_connector.Query(comm).toByteString(), client_topic);
 		}
 		catch (SQLException e) {
 			e.printStackTrace();

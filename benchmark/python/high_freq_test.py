@@ -9,7 +9,7 @@ import pandas as pd
 
 mess_count = 0
 interval = 0
-N = 5000
+N = 2500
 
 records = {}
 consumer = kafka.KafkaConsumer("benchmark", group_id='worker',
@@ -75,7 +75,7 @@ threads = list(map(lambda i: threading.Thread(target=multi_test, args=(i, )), ra
 
 while mess_count < N * size:
     print('\rf = {:.6f},\tprogress = {}/{},\treceive_progress = {}/{}'
-          .format(sum(progress) / (sum(full) + 1e-6), sum(progress), N*size, mess_count, N)
+          .format(sum(progress) / (sum(full) + 1e-6), sum(progress), N*size, mess_count, N * size)
           , flush=True, end='')
     time.sleep(0.1)
 
@@ -86,7 +86,7 @@ print("done")
 
 data = pd.DataFrame(records).values.T
 data = pd.DataFrame(np.c_[data[:, 0], data[:, 1], data[:, 1] - data[:, 0]], columns=['start', 'end', 'delta'])
-data.to_csv(f'result_n={size}_f=100_{N}_v2.csv')
+data.to_csv(f'result_n={size}_f=h70_{N}_v2.csv')
 
 print(data.describe())
 plt.hist(data['delta'])

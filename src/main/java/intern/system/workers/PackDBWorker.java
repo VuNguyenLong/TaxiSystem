@@ -40,7 +40,7 @@ public class PackDBWorker extends OnlineWorker {
 			{
 				Message message = Message.parseFrom(record.value());
 				if (message.getType() == Message.Type.SELECT)
-					pool.submit(new QueryTask(message.getClient(), conn, db_connector));
+					pool.submit(new QueryTask(message.getClient(), conn, db_connector, prop.getProperty("mode")));
 				else
 				{
 					Command command = Command.newBuilder()
@@ -53,6 +53,8 @@ public class PackDBWorker extends OnlineWorker {
 						pool.submit(new UpdateTask(update_builder.build(), conn, db_connector));
 						update_builder = Request.newBuilder();
 					}
+
+					System.out.println(message.getDriver().toString());
 				}
 			}
 			catch (Exception e)

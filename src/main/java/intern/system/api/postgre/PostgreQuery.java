@@ -7,11 +7,13 @@ import java.io.IOException;
 import java.sql.*;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
 import java.util.Properties;
 
 public class PostgreQuery {
 	Properties properties;
 	Connection conn;
+	String sql = "insert into Locations(driver_id, long, lat, hash_0) values (?, ?, ?, ?)";
 
 	public PostgreQuery() throws IOException, SQLException {
 		properties = new Properties();
@@ -21,21 +23,23 @@ public class PostgreQuery {
 
 	public Messages.Response Update(Messages.Request request) throws SQLException
 	{
-		Statement stmt = conn.createStatement();
+		if (request.getCommandsCount() <= 0)
+			return null;
+
+		PreparedStatement stmt = conn.prepareStatement(this.sql);
+		conn.setAutoCommit(false);
 		for (Messages.Command command : request.getCommandsList())
 		{
-			stmt.addBatch(
-					String.format(
-							"insert into Locations(driver_id, long, lat, hash_0) " +
-									"values(%d, %f, %f, %d);",
-							command.getDriver().getId(),
-							command.getDriver().getLong(),
-							command.getDriver().getLat(),
-							command.getDriver().getHash(0)
-					)
-			);
+			stmt.setLong(1, command.getDriver().getId());
+			stmt.setFloat(2, command.getDriver().getLong());
+			stmt.setFloat(3, command.getDriver().getLat());
+			stmt.setLong(4, command.getDriver().getHash(0));
+			stmt.addBatch();
 		}
-		stmt.executeBatch();
+
+		stmt.executeLargeBatch();
+		conn.commit();
+		conn.setAutoCommit(true);
 		stmt.close();
 
 		return Messages.Response.newBuilder()
@@ -111,7 +115,9 @@ public class PostgreQuery {
 	{
 		Statement stmt = conn.createStatement();
 		ResultSet result = stmt.executeQuery(String.format("select update_driver_view(%d)", n));
-		long i = result.getLong("update_driver_view");
+		long i = 0;
+		while (result.next())
+			i = result.getLong("update_driver_view");
 
 		result.close();
 		stmt.close();
