@@ -8,6 +8,7 @@ from psycopg2.extensions import *
 import kafka
 from functools import *
 import time
+import json
 
 conn: connection = psycopg2.connect(host='localhost', port='5432', dbname="taxi", user="root", password="root")
 query_template = \
@@ -29,7 +30,6 @@ update_template = \
 def test_query(i):
     def check(response: Response, hash_0):
         global query_template
-        print(hash_0)
 
         _cursor: cursor = conn.cursor()
         _cursor.execute(query_template + str(hash_0))
@@ -38,22 +38,20 @@ def test_query(i):
 
         match = {}
         for location in response.response.drivers:
-            print(location)
             match[location.id] = [[location.long, location.lat]]
 
         for driver in data:
-            print(driver)
             match[driver[0]].append([driver[1], driver[2]])
 
-        return reduce(lambda x, y: x and (match[y][0] == match[y][1]), match.keys(), True)
+        return reduce(lambda x, y: x and (np.average(np.abs(np.array(match[y][0]) - np.array(match[y][1])) < 1e-5)), match.keys(), True)
 
     mess = Message()
     mess.type = Message.SELECT
     mess.client.id = i
 
-    y = np.random.uniform(low=-90, high=90)
-    x = np.random.uniform(low=-180, high=180)
-    resolution = 3
+    x = np.random.uniform(low=10.361150797591193, high=11.14905794904022)
+    y = np.random.uniform(low=106.59572659658203, high=106.67503415273437)
+    resolution = 7
     hash_0 = h3.geo_to_h3(x, y, resolution)
     mess.client.hash.append(hash_0)
 
@@ -97,16 +95,16 @@ def test_update(i):
 
         print(driver_id, x, y)
 
-        return reduce(lambda x, y: x and (y[0] == y[1]), zip(data, [driver_id, x, y]), True)
+        return reduce(lambda x, y: x and (np.average(np.abs(np.array(y[0]) - np.array(y[1]))) < 1e-5), zip(data, [driver_id, x, y]), True)
 
 
 
     mess = Message()
     mess.type = Message.UPDATE
     mess.driver.id = i
-    y = np.random.uniform(low=-90, high=90)
-    x = np.random.uniform(low=-180, high=180)
-    resolution = 3
+    x = np.random.uniform(low=10.361150797591193, high=11.14905794904022)
+    y = np.random.uniform(low=106.59572659658203, high=106.67503415273437)
+    resolution = 7
     hash_0 = h3.geo_to_h3(x, y, resolution)
     mess.driver.long = x
     mess.driver.lat = y
@@ -121,7 +119,6 @@ def test_update(i):
 
     _producer()
     _consumer()
-
 
 class TestQuery(unittest.TestCase):
     def test_1(self):
@@ -923,6 +920,7 @@ class TestUpdate(unittest.TestCase):
         test_update(198)
     def test_199(self):
         test_update(199)
+
 
 if __name__ == '__main__':
     unittest.main()
