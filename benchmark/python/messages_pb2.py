@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0emessages.proto\"9\n\x0cRestResponse\x12\x11\n\thashed_id\x18\x01 \x01(\t\x12\x16\n\x0e\x62roker_address\x18\x02 \x03(\t\"=\n\x06\x44river\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04long\x18\x02 \x01(\x02\x12\x0b\n\x03lat\x18\x03 \x01(\x02\x12\x0c\n\x04hash\x18\x04 \x03(\x04\"\"\n\x06\x43lient\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04hash\x18\x02 \x03(\x04\"\x84\x01\n\x07Message\x12\x1b\n\x04type\x18\x01 \x01(\x0e\x32\r.Message.Type\x12\x19\n\x06\x63lient\x18\x02 \x01(\x0b\x32\x07.ClientH\x00\x12\x19\n\x06\x64river\x18\x03 \x01(\x0b\x32\x07.DriverH\x00\"\x1e\n\x04Type\x12\n\n\x06SELECT\x10\x00\x12\n\n\x06UPDATE\x10\x01\x42\x06\n\x04\x64\x61ta\"G\n\x07\x43ommand\x12\x19\n\x06\x63lient\x18\x01 \x01(\x0b\x32\x07.ClientH\x00\x12\x19\n\x06\x64river\x18\x02 \x01(\x0b\x32\x07.DriverH\x00\x42\x06\n\x04\x64\x61ta\"b\n\x07Request\x12\x1b\n\x04type\x18\x01 \x01(\x0e\x32\r.Request.Type\x12\x1a\n\x08\x63ommands\x18\x02 \x03(\x0b\x32\x08.Command\"\x1e\n\x04Type\x12\n\n\x06SELECT\x10\x00\x12\n\n\x06UPDATE\x10\x01\"%\n\tLocations\x12\x18\n\x07\x64rivers\x18\x01 \x03(\x0b\x32\x07.Driver\"N\n\x08Response\x12\x11\n\tclient_id\x18\x01 \x01(\x05\x12\x1c\n\x08response\x18\x02 \x01(\x0b\x32\n.Locations\x12\x11\n\ttimestamp\x18\x03 \x01(\tb\x06proto3'
+  serialized_pb=b'\n\x0emessages.proto\"9\n\x0cRestResponse\x12\x11\n\thashed_id\x18\x01 \x01(\t\x12\x16\n\x0e\x62roker_address\x18\x02 \x03(\t\"f\n\x06\x44river\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04long\x18\x02 \x01(\x02\x12\x0b\n\x03lat\x18\x03 \x01(\x02\x12\x14\n\x0cvehicle_type\x18\x04 \x01(\x05\x12\x11\n\tavailable\x18\x05 \x01(\x08\x12\x0c\n\x04hash\x18\x06 \x03(\x04\"8\n\x06\x43lient\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x14\n\x0cvehicle_type\x18\x02 \x01(\x05\x12\x0c\n\x04hash\x18\x03 \x03(\x04\"\x84\x01\n\x07Message\x12\x1b\n\x04type\x18\x01 \x01(\x0e\x32\r.Message.Type\x12\x19\n\x06\x63lient\x18\x02 \x01(\x0b\x32\x07.ClientH\x00\x12\x19\n\x06\x64river\x18\x03 \x01(\x0b\x32\x07.DriverH\x00\"\x1e\n\x04Type\x12\n\n\x06SELECT\x10\x00\x12\n\n\x06UPDATE\x10\x01\x42\x06\n\x04\x64\x61ta\"G\n\x07\x43ommand\x12\x19\n\x06\x63lient\x18\x01 \x01(\x0b\x32\x07.ClientH\x00\x12\x19\n\x06\x64river\x18\x02 \x01(\x0b\x32\x07.DriverH\x00\x42\x06\n\x04\x64\x61ta\"b\n\x07Request\x12\x1b\n\x04type\x18\x01 \x01(\x0e\x32\r.Request.Type\x12\x1a\n\x08\x63ommands\x18\x02 \x03(\x0b\x32\x08.Command\"\x1e\n\x04Type\x12\n\n\x06SELECT\x10\x00\x12\n\n\x06UPDATE\x10\x01\"%\n\tLocations\x12\x18\n\x07\x64rivers\x18\x01 \x03(\x0b\x32\x07.Driver\"N\n\x08Response\x12\x11\n\tclient_id\x18\x01 \x01(\x05\x12\x1c\n\x08response\x18\x02 \x01(\x0b\x32\n.Locations\x12\x11\n\ttimestamp\x18\x03 \x01(\tb\x06proto3'
 )
 
 
@@ -44,8 +44,8 @@ _MESSAGE_TYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=271,
-  serialized_end=301,
+  serialized_start=334,
+  serialized_end=364,
 )
 _sym_db.RegisterEnumDescriptor(_MESSAGE_TYPE)
 
@@ -69,8 +69,8 @@ _REQUEST_TYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=271,
-  serialized_end=301,
+  serialized_start=334,
+  serialized_end=364,
 )
 _sym_db.RegisterEnumDescriptor(_REQUEST_TYPE)
 
@@ -144,8 +144,22 @@ _DRIVER = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='hash', full_name='Driver.hash', index=3,
-      number=4, type=4, cpp_type=4, label=3,
+      name='vehicle_type', full_name='Driver.vehicle_type', index=3,
+      number=4, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='available', full_name='Driver.available', index=4,
+      number=5, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='hash', full_name='Driver.hash', index=5,
+      number=6, type=4, cpp_type=4, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -163,7 +177,7 @@ _DRIVER = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=77,
-  serialized_end=138,
+  serialized_end=179,
 )
 
 
@@ -183,8 +197,15 @@ _CLIENT = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='hash', full_name='Client.hash', index=1,
-      number=2, type=4, cpp_type=4, label=3,
+      name='vehicle_type', full_name='Client.vehicle_type', index=1,
+      number=2, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='hash', full_name='Client.hash', index=2,
+      number=3, type=4, cpp_type=4, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -201,8 +222,8 @@ _CLIENT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=140,
-  serialized_end=174,
+  serialized_start=181,
+  serialized_end=237,
 )
 
 
@@ -253,8 +274,8 @@ _MESSAGE = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=177,
-  serialized_end=309,
+  serialized_start=240,
+  serialized_end=372,
 )
 
 
@@ -297,8 +318,8 @@ _COMMAND = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=311,
-  serialized_end=382,
+  serialized_start=374,
+  serialized_end=445,
 )
 
 
@@ -337,8 +358,8 @@ _REQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=384,
-  serialized_end=482,
+  serialized_start=447,
+  serialized_end=545,
 )
 
 
@@ -369,8 +390,8 @@ _LOCATIONS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=484,
-  serialized_end=521,
+  serialized_start=547,
+  serialized_end=584,
 )
 
 
@@ -415,8 +436,8 @@ _RESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=523,
-  serialized_end=601,
+  serialized_start=586,
+  serialized_end=664,
 )
 
 _MESSAGE.fields_by_name['type'].enum_type = _MESSAGE_TYPE

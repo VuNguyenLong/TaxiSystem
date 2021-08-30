@@ -11,13 +11,16 @@ message Driver
 	int32 id = 1;
 	float long = 2;
 	float lat = 3;
-	repeated uint64 hash = 4;
+	int32 vehicle_type = 4;
+	bool available = 5;
+	repeated uint64 hash = 6;
 }
 
 message Client
 {
 	int32 id = 1;
-	repeated uint64 hash = 2;
+	int32 vehicle_type = 2;
+	repeated uint64 hash = 3;
 }
 
 message Message

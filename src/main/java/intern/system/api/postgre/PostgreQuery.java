@@ -13,7 +13,7 @@ import java.util.Properties;
 public class PostgreQuery {
 	Properties properties;
 	Connection conn;
-	String sql = "insert into Locations(driver_id, long, lat, hash_0) values (?, ?, ?, ?)";
+	String sql = "insert into Locations(driver_id, long, lat, hash_0, available, vehicle_type) values (?, ?, ?, ?, ?, ?)";
 
 	public PostgreQuery() throws IOException, SQLException {
 		properties = new Properties();
@@ -34,6 +34,8 @@ public class PostgreQuery {
 			stmt.setFloat(2, command.getDriver().getLong());
 			stmt.setFloat(3, command.getDriver().getLat());
 			stmt.setLong(4, command.getDriver().getHash(0));
+			stmt.setBoolean(5, command.getDriver().getAvailable());
+			stmt.setInt(6, command.getDriver().getVehicleType());
 			stmt.addBatch();
 		}
 
@@ -58,8 +60,10 @@ public class PostgreQuery {
 						"select l.driver_id, l.long, l.lat\n" +
 						"from Locations l inner join driver_table_view\n" +
 						"on l.driver_id = driver_table_view.driver_id\n" +
-						"where l.time_stamp = driver_table_view.max_time and hash_0 = %d;",
-						command.getClient().getHash(0)
+						"where l.time_stamp = driver_table_view.max_time and hash_0 = %d" +
+						"and available and vehicle_type = %d;",
+						command.getClient().getHash(0),
+						command.getClient().getVehicleType()
 				)
 		);
 
@@ -90,8 +94,10 @@ public class PostgreQuery {
 						"select l.driver_id, l.long, l.lat\n" +
 						"from Locations l inner join driver_table_view\n" +
 						"on l.driver_id = driver_table_view.driver_id\n" +
-						"where l.time_stamp = driver_table_view.max_time and hash_0 = %d;",
-						command.getHash(0)
+						"where l.time_stamp = driver_table_view.max_time and hash_0 = %d" +
+						"and available and vehicle_type = %d;",
+						command.getHash(0),
+						command.getVehicleType()
 				)
 		);
 

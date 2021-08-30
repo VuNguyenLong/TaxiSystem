@@ -824,17 +824,29 @@ public final class Messages {
     float getLat();
 
     /**
-     * <code>repeated uint64 hash = 4;</code>
+     * <code>int32 vehicle_type = 4;</code>
+     * @return The vehicleType.
+     */
+    int getVehicleType();
+
+    /**
+     * <code>bool available = 5;</code>
+     * @return The available.
+     */
+    boolean getAvailable();
+
+    /**
+     * <code>repeated uint64 hash = 6;</code>
      * @return A list containing the hash.
      */
     java.util.List<java.lang.Long> getHashList();
     /**
-     * <code>repeated uint64 hash = 4;</code>
+     * <code>repeated uint64 hash = 6;</code>
      * @return The count of hash.
      */
     int getHashCount();
     /**
-     * <code>repeated uint64 hash = 4;</code>
+     * <code>repeated uint64 hash = 6;</code>
      * @param index The index of the element to return.
      * @return The hash at the given index.
      */
@@ -903,6 +915,16 @@ public final class Messages {
               break;
             }
             case 32: {
+
+              vehicleType_ = input.readInt32();
+              break;
+            }
+            case 40: {
+
+              available_ = input.readBool();
+              break;
+            }
+            case 48: {
               if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 hash_ = newLongList();
                 mutable_bitField0_ |= 0x00000001;
@@ -910,7 +932,7 @@ public final class Messages {
               hash_.addLong(input.readUInt64());
               break;
             }
-            case 34: {
+            case 50: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
               if (!((mutable_bitField0_ & 0x00000001) != 0) && input.getBytesUntilLimit() > 0) {
@@ -991,10 +1013,32 @@ public final class Messages {
       return lat_;
     }
 
-    public static final int HASH_FIELD_NUMBER = 4;
+    public static final int VEHICLE_TYPE_FIELD_NUMBER = 4;
+    private int vehicleType_;
+    /**
+     * <code>int32 vehicle_type = 4;</code>
+     * @return The vehicleType.
+     */
+    @java.lang.Override
+    public int getVehicleType() {
+      return vehicleType_;
+    }
+
+    public static final int AVAILABLE_FIELD_NUMBER = 5;
+    private boolean available_;
+    /**
+     * <code>bool available = 5;</code>
+     * @return The available.
+     */
+    @java.lang.Override
+    public boolean getAvailable() {
+      return available_;
+    }
+
+    public static final int HASH_FIELD_NUMBER = 6;
     private com.google.protobuf.Internal.LongList hash_;
     /**
-     * <code>repeated uint64 hash = 4;</code>
+     * <code>repeated uint64 hash = 6;</code>
      * @return A list containing the hash.
      */
     @java.lang.Override
@@ -1003,14 +1047,14 @@ public final class Messages {
       return hash_;
     }
     /**
-     * <code>repeated uint64 hash = 4;</code>
+     * <code>repeated uint64 hash = 6;</code>
      * @return The count of hash.
      */
     public int getHashCount() {
       return hash_.size();
     }
     /**
-     * <code>repeated uint64 hash = 4;</code>
+     * <code>repeated uint64 hash = 6;</code>
      * @param index The index of the element to return.
      * @return The hash at the given index.
      */
@@ -1043,8 +1087,14 @@ public final class Messages {
       if (lat_ != 0F) {
         output.writeFloat(3, lat_);
       }
+      if (vehicleType_ != 0) {
+        output.writeInt32(4, vehicleType_);
+      }
+      if (available_ != false) {
+        output.writeBool(5, available_);
+      }
       if (getHashList().size() > 0) {
-        output.writeUInt32NoTag(34);
+        output.writeUInt32NoTag(50);
         output.writeUInt32NoTag(hashMemoizedSerializedSize);
       }
       for (int i = 0; i < hash_.size(); i++) {
@@ -1070,6 +1120,14 @@ public final class Messages {
       if (lat_ != 0F) {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(3, lat_);
+      }
+      if (vehicleType_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, vehicleType_);
+      }
+      if (available_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(5, available_);
       }
       {
         int dataSize = 0;
@@ -1108,6 +1166,10 @@ public final class Messages {
       if (java.lang.Float.floatToIntBits(getLat())
           != java.lang.Float.floatToIntBits(
               other.getLat())) return false;
+      if (getVehicleType()
+          != other.getVehicleType()) return false;
+      if (getAvailable()
+          != other.getAvailable()) return false;
       if (!getHashList()
           .equals(other.getHashList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
@@ -1129,6 +1191,11 @@ public final class Messages {
       hash = (37 * hash) + LAT_FIELD_NUMBER;
       hash = (53 * hash) + java.lang.Float.floatToIntBits(
           getLat());
+      hash = (37 * hash) + VEHICLE_TYPE_FIELD_NUMBER;
+      hash = (53 * hash) + getVehicleType();
+      hash = (37 * hash) + AVAILABLE_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getAvailable());
       if (getHashCount() > 0) {
         hash = (37 * hash) + HASH_FIELD_NUMBER;
         hash = (53 * hash) + getHashList().hashCode();
@@ -1272,6 +1339,10 @@ public final class Messages {
 
         lat_ = 0F;
 
+        vehicleType_ = 0;
+
+        available_ = false;
+
         hash_ = emptyLongList();
         bitField0_ = (bitField0_ & ~0x00000001);
         return this;
@@ -1304,6 +1375,8 @@ public final class Messages {
         result.id_ = id_;
         result.long_ = long_;
         result.lat_ = lat_;
+        result.vehicleType_ = vehicleType_;
+        result.available_ = available_;
         if (((bitField0_ & 0x00000001) != 0)) {
           hash_.makeImmutable();
           bitField0_ = (bitField0_ & ~0x00000001);
@@ -1365,6 +1438,12 @@ public final class Messages {
         }
         if (other.getLat() != 0F) {
           setLat(other.getLat());
+        }
+        if (other.getVehicleType() != 0) {
+          setVehicleType(other.getVehicleType());
+        }
+        if (other.getAvailable() != false) {
+          setAvailable(other.getAvailable());
         }
         if (!other.hash_.isEmpty()) {
           if (hash_.isEmpty()) {
@@ -1499,6 +1578,68 @@ public final class Messages {
         return this;
       }
 
+      private int vehicleType_ ;
+      /**
+       * <code>int32 vehicle_type = 4;</code>
+       * @return The vehicleType.
+       */
+      @java.lang.Override
+      public int getVehicleType() {
+        return vehicleType_;
+      }
+      /**
+       * <code>int32 vehicle_type = 4;</code>
+       * @param value The vehicleType to set.
+       * @return This builder for chaining.
+       */
+      public Builder setVehicleType(int value) {
+        
+        vehicleType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 vehicle_type = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearVehicleType() {
+        
+        vehicleType_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private boolean available_ ;
+      /**
+       * <code>bool available = 5;</code>
+       * @return The available.
+       */
+      @java.lang.Override
+      public boolean getAvailable() {
+        return available_;
+      }
+      /**
+       * <code>bool available = 5;</code>
+       * @param value The available to set.
+       * @return This builder for chaining.
+       */
+      public Builder setAvailable(boolean value) {
+        
+        available_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool available = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearAvailable() {
+        
+        available_ = false;
+        onChanged();
+        return this;
+      }
+
       private com.google.protobuf.Internal.LongList hash_ = emptyLongList();
       private void ensureHashIsMutable() {
         if (!((bitField0_ & 0x00000001) != 0)) {
@@ -1507,7 +1648,7 @@ public final class Messages {
          }
       }
       /**
-       * <code>repeated uint64 hash = 4;</code>
+       * <code>repeated uint64 hash = 6;</code>
        * @return A list containing the hash.
        */
       public java.util.List<java.lang.Long>
@@ -1516,14 +1657,14 @@ public final class Messages {
                  java.util.Collections.unmodifiableList(hash_) : hash_;
       }
       /**
-       * <code>repeated uint64 hash = 4;</code>
+       * <code>repeated uint64 hash = 6;</code>
        * @return The count of hash.
        */
       public int getHashCount() {
         return hash_.size();
       }
       /**
-       * <code>repeated uint64 hash = 4;</code>
+       * <code>repeated uint64 hash = 6;</code>
        * @param index The index of the element to return.
        * @return The hash at the given index.
        */
@@ -1531,7 +1672,7 @@ public final class Messages {
         return hash_.getLong(index);
       }
       /**
-       * <code>repeated uint64 hash = 4;</code>
+       * <code>repeated uint64 hash = 6;</code>
        * @param index The index to set the value at.
        * @param value The hash to set.
        * @return This builder for chaining.
@@ -1544,7 +1685,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated uint64 hash = 4;</code>
+       * <code>repeated uint64 hash = 6;</code>
        * @param value The hash to add.
        * @return This builder for chaining.
        */
@@ -1555,7 +1696,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated uint64 hash = 4;</code>
+       * <code>repeated uint64 hash = 6;</code>
        * @param values The hash to add.
        * @return This builder for chaining.
        */
@@ -1568,7 +1709,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated uint64 hash = 4;</code>
+       * <code>repeated uint64 hash = 6;</code>
        * @return This builder for chaining.
        */
       public Builder clearHash() {
@@ -1641,17 +1782,23 @@ public final class Messages {
     int getId();
 
     /**
-     * <code>repeated uint64 hash = 2;</code>
+     * <code>int32 vehicle_type = 2;</code>
+     * @return The vehicleType.
+     */
+    int getVehicleType();
+
+    /**
+     * <code>repeated uint64 hash = 3;</code>
      * @return A list containing the hash.
      */
     java.util.List<java.lang.Long> getHashList();
     /**
-     * <code>repeated uint64 hash = 2;</code>
+     * <code>repeated uint64 hash = 3;</code>
      * @return The count of hash.
      */
     int getHashCount();
     /**
-     * <code>repeated uint64 hash = 2;</code>
+     * <code>repeated uint64 hash = 3;</code>
      * @param index The index of the element to return.
      * @return The hash at the given index.
      */
@@ -1710,6 +1857,11 @@ public final class Messages {
               break;
             }
             case 16: {
+
+              vehicleType_ = input.readInt32();
+              break;
+            }
+            case 24: {
               if (!((mutable_bitField0_ & 0x00000001) != 0)) {
                 hash_ = newLongList();
                 mutable_bitField0_ |= 0x00000001;
@@ -1717,7 +1869,7 @@ public final class Messages {
               hash_.addLong(input.readUInt64());
               break;
             }
-            case 18: {
+            case 26: {
               int length = input.readRawVarint32();
               int limit = input.pushLimit(length);
               if (!((mutable_bitField0_ & 0x00000001) != 0) && input.getBytesUntilLimit() > 0) {
@@ -1776,10 +1928,21 @@ public final class Messages {
       return id_;
     }
 
-    public static final int HASH_FIELD_NUMBER = 2;
+    public static final int VEHICLE_TYPE_FIELD_NUMBER = 2;
+    private int vehicleType_;
+    /**
+     * <code>int32 vehicle_type = 2;</code>
+     * @return The vehicleType.
+     */
+    @java.lang.Override
+    public int getVehicleType() {
+      return vehicleType_;
+    }
+
+    public static final int HASH_FIELD_NUMBER = 3;
     private com.google.protobuf.Internal.LongList hash_;
     /**
-     * <code>repeated uint64 hash = 2;</code>
+     * <code>repeated uint64 hash = 3;</code>
      * @return A list containing the hash.
      */
     @java.lang.Override
@@ -1788,14 +1951,14 @@ public final class Messages {
       return hash_;
     }
     /**
-     * <code>repeated uint64 hash = 2;</code>
+     * <code>repeated uint64 hash = 3;</code>
      * @return The count of hash.
      */
     public int getHashCount() {
       return hash_.size();
     }
     /**
-     * <code>repeated uint64 hash = 2;</code>
+     * <code>repeated uint64 hash = 3;</code>
      * @param index The index of the element to return.
      * @return The hash at the given index.
      */
@@ -1822,8 +1985,11 @@ public final class Messages {
       if (id_ != 0) {
         output.writeInt32(1, id_);
       }
+      if (vehicleType_ != 0) {
+        output.writeInt32(2, vehicleType_);
+      }
       if (getHashList().size() > 0) {
-        output.writeUInt32NoTag(18);
+        output.writeUInt32NoTag(26);
         output.writeUInt32NoTag(hashMemoizedSerializedSize);
       }
       for (int i = 0; i < hash_.size(); i++) {
@@ -1841,6 +2007,10 @@ public final class Messages {
       if (id_ != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, id_);
+      }
+      if (vehicleType_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, vehicleType_);
       }
       {
         int dataSize = 0;
@@ -1873,6 +2043,8 @@ public final class Messages {
 
       if (getId()
           != other.getId()) return false;
+      if (getVehicleType()
+          != other.getVehicleType()) return false;
       if (!getHashList()
           .equals(other.getHashList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
@@ -1888,6 +2060,8 @@ public final class Messages {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + ID_FIELD_NUMBER;
       hash = (53 * hash) + getId();
+      hash = (37 * hash) + VEHICLE_TYPE_FIELD_NUMBER;
+      hash = (53 * hash) + getVehicleType();
       if (getHashCount() > 0) {
         hash = (37 * hash) + HASH_FIELD_NUMBER;
         hash = (53 * hash) + getHashList().hashCode();
@@ -2027,6 +2201,8 @@ public final class Messages {
         super.clear();
         id_ = 0;
 
+        vehicleType_ = 0;
+
         hash_ = emptyLongList();
         bitField0_ = (bitField0_ & ~0x00000001);
         return this;
@@ -2057,6 +2233,7 @@ public final class Messages {
         Messages.Client result = new Messages.Client(this);
         int from_bitField0_ = bitField0_;
         result.id_ = id_;
+        result.vehicleType_ = vehicleType_;
         if (((bitField0_ & 0x00000001) != 0)) {
           hash_.makeImmutable();
           bitField0_ = (bitField0_ & ~0x00000001);
@@ -2112,6 +2289,9 @@ public final class Messages {
         if (other == Messages.Client.getDefaultInstance()) return this;
         if (other.getId() != 0) {
           setId(other.getId());
+        }
+        if (other.getVehicleType() != 0) {
+          setVehicleType(other.getVehicleType());
         }
         if (!other.hash_.isEmpty()) {
           if (hash_.isEmpty()) {
@@ -2184,6 +2364,37 @@ public final class Messages {
         return this;
       }
 
+      private int vehicleType_ ;
+      /**
+       * <code>int32 vehicle_type = 2;</code>
+       * @return The vehicleType.
+       */
+      @java.lang.Override
+      public int getVehicleType() {
+        return vehicleType_;
+      }
+      /**
+       * <code>int32 vehicle_type = 2;</code>
+       * @param value The vehicleType to set.
+       * @return This builder for chaining.
+       */
+      public Builder setVehicleType(int value) {
+        
+        vehicleType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 vehicle_type = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearVehicleType() {
+        
+        vehicleType_ = 0;
+        onChanged();
+        return this;
+      }
+
       private com.google.protobuf.Internal.LongList hash_ = emptyLongList();
       private void ensureHashIsMutable() {
         if (!((bitField0_ & 0x00000001) != 0)) {
@@ -2192,7 +2403,7 @@ public final class Messages {
          }
       }
       /**
-       * <code>repeated uint64 hash = 2;</code>
+       * <code>repeated uint64 hash = 3;</code>
        * @return A list containing the hash.
        */
       public java.util.List<java.lang.Long>
@@ -2201,14 +2412,14 @@ public final class Messages {
                  java.util.Collections.unmodifiableList(hash_) : hash_;
       }
       /**
-       * <code>repeated uint64 hash = 2;</code>
+       * <code>repeated uint64 hash = 3;</code>
        * @return The count of hash.
        */
       public int getHashCount() {
         return hash_.size();
       }
       /**
-       * <code>repeated uint64 hash = 2;</code>
+       * <code>repeated uint64 hash = 3;</code>
        * @param index The index of the element to return.
        * @return The hash at the given index.
        */
@@ -2216,7 +2427,7 @@ public final class Messages {
         return hash_.getLong(index);
       }
       /**
-       * <code>repeated uint64 hash = 2;</code>
+       * <code>repeated uint64 hash = 3;</code>
        * @param index The index to set the value at.
        * @param value The hash to set.
        * @return This builder for chaining.
@@ -2229,7 +2440,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated uint64 hash = 2;</code>
+       * <code>repeated uint64 hash = 3;</code>
        * @param value The hash to add.
        * @return This builder for chaining.
        */
@@ -2240,7 +2451,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated uint64 hash = 2;</code>
+       * <code>repeated uint64 hash = 3;</code>
        * @param values The hash to add.
        * @return This builder for chaining.
        */
@@ -2253,7 +2464,7 @@ public final class Messages {
         return this;
       }
       /**
-       * <code>repeated uint64 hash = 2;</code>
+       * <code>repeated uint64 hash = 3;</code>
        * @return This builder for chaining.
        */
       public Builder clearHash() {
@@ -7116,21 +7327,22 @@ public final class Messages {
   static {
     java.lang.String[] descriptorData = {
       "\n\016messages.proto\"9\n\014RestResponse\022\021\n\thash" +
-      "ed_id\030\001 \001(\t\022\026\n\016broker_address\030\002 \003(\t\"=\n\006D" +
+      "ed_id\030\001 \001(\t\022\026\n\016broker_address\030\002 \003(\t\"f\n\006D" +
       "river\022\n\n\002id\030\001 \001(\005\022\014\n\004long\030\002 \001(\002\022\013\n\003lat\030\003" +
-      " \001(\002\022\014\n\004hash\030\004 \003(\004\"\"\n\006Client\022\n\n\002id\030\001 \001(\005" +
-      "\022\014\n\004hash\030\002 \003(\004\"\204\001\n\007Message\022\033\n\004type\030\001 \001(\016" +
-      "2\r.Message.Type\022\031\n\006client\030\002 \001(\0132\007.Client" +
-      "H\000\022\031\n\006driver\030\003 \001(\0132\007.DriverH\000\"\036\n\004Type\022\n\n" +
-      "\006SELECT\020\000\022\n\n\006UPDATE\020\001B\006\n\004data\"G\n\007Command" +
-      "\022\031\n\006client\030\001 \001(\0132\007.ClientH\000\022\031\n\006driver\030\002 " +
-      "\001(\0132\007.DriverH\000B\006\n\004data\"b\n\007Request\022\033\n\004typ" +
-      "e\030\001 \001(\0162\r.Request.Type\022\032\n\010commands\030\002 \003(\013" +
-      "2\010.Command\"\036\n\004Type\022\n\n\006SELECT\020\000\022\n\n\006UPDATE" +
-      "\020\001\"%\n\tLocations\022\030\n\007drivers\030\001 \003(\0132\007.Drive" +
-      "r\"N\n\010Response\022\021\n\tclient_id\030\001 \001(\005\022\034\n\010resp" +
-      "onse\030\002 \001(\0132\n.Locations\022\021\n\ttimestamp\030\003 \001(" +
-      "\tb\006proto3"
+      " \001(\002\022\024\n\014vehicle_type\030\004 \001(\005\022\021\n\tavailable\030" +
+      "\005 \001(\010\022\014\n\004hash\030\006 \003(\004\"8\n\006Client\022\n\n\002id\030\001 \001(" +
+      "\005\022\024\n\014vehicle_type\030\002 \001(\005\022\014\n\004hash\030\003 \003(\004\"\204\001" +
+      "\n\007Message\022\033\n\004type\030\001 \001(\0162\r.Message.Type\022\031" +
+      "\n\006client\030\002 \001(\0132\007.ClientH\000\022\031\n\006driver\030\003 \001(" +
+      "\0132\007.DriverH\000\"\036\n\004Type\022\n\n\006SELECT\020\000\022\n\n\006UPDA" +
+      "TE\020\001B\006\n\004data\"G\n\007Command\022\031\n\006client\030\001 \001(\0132" +
+      "\007.ClientH\000\022\031\n\006driver\030\002 \001(\0132\007.DriverH\000B\006\n" +
+      "\004data\"b\n\007Request\022\033\n\004type\030\001 \001(\0162\r.Request" +
+      ".Type\022\032\n\010commands\030\002 \003(\0132\010.Command\"\036\n\004Typ" +
+      "e\022\n\n\006SELECT\020\000\022\n\n\006UPDATE\020\001\"%\n\tLocations\022\030" +
+      "\n\007drivers\030\001 \003(\0132\007.Driver\"N\n\010Response\022\021\n\t" +
+      "client_id\030\001 \001(\005\022\034\n\010response\030\002 \001(\0132\n.Loca" +
+      "tions\022\021\n\ttimestamp\030\003 \001(\tb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -7147,13 +7359,13 @@ public final class Messages {
     internal_static_Driver_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Driver_descriptor,
-        new java.lang.String[] { "Id", "Long", "Lat", "Hash", });
+        new java.lang.String[] { "Id", "Long", "Lat", "VehicleType", "Available", "Hash", });
     internal_static_Client_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_Client_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Client_descriptor,
-        new java.lang.String[] { "Id", "Hash", });
+        new java.lang.String[] { "Id", "VehicleType", "Hash", });
     internal_static_Message_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_Message_fieldAccessorTable = new

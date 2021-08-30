@@ -8,7 +8,6 @@ from psycopg2.extensions import *
 import kafka
 from functools import *
 import time
-import json
 
 conn: connection = psycopg2.connect(host='localhost', port='5432', dbname="taxi", user="root", password="root")
 query_template = \
@@ -16,23 +15,27 @@ query_template = \
         select l.driver_id, l.long, l.lat
         from Locations l inner join driver_table_view
         on l.driver_id = driver_table_view.driver_id
-        where l.time_stamp = driver_table_view.max_time and hash_0 = 
+        where l.time_stamp = driver_table_view.max_time and available and 
     '''
 
 update_template = \
     '''
-        select l.driver_id, l.long, l.lat
+        select l.driver_id, l.long, l.lat, l.available, l.vehicle_type
         from Locations l inner join driver_table_view
         on l.driver_id = driver_table_view.driver_id
         where l.time_stamp = driver_table_view.max_time and l.driver_id = 
     '''
 
 def test_query(i):
-    def check(response: Response, hash_0):
+    def check(response: Response, vehicle_type, hash_0):
         global query_template
 
+        #print(response)
+
+        condition = 'vehicle_type = {} and hash_0 = {}'
+
         _cursor: cursor = conn.cursor()
-        _cursor.execute(query_template + str(hash_0))
+        _cursor.execute(query_template + condition.format(vehicle_type, hash_0))
         data = _cursor.fetchall()
         _cursor.close()
 
@@ -55,6 +58,11 @@ def test_query(i):
     hash_0 = h3.geo_to_h3(x, y, resolution)
     mess.client.hash.append(hash_0)
 
+    vehicle_type = np.random.randint(1, 10)
+    mess.client.vehicle_type = vehicle_type
+
+    #print(mess)
+
     info = requests.get(f'http://localhost:8080/info?id={mess.client.id}')
     info = RestResponse.FromString(info.content)
     consumer = kafka.KafkaConsumer(info.hashed_id, group_id='worker',
@@ -64,7 +72,7 @@ def test_query(i):
 
     def _consumer():
         for val in consumer:
-            assert(check(Response.FromString(val.value), hash_0))
+            assert(check(Response.FromString(val.value), vehicle_type, hash_0))
             break
         consumer.close()
 
@@ -85,17 +93,15 @@ def test_query(i):
 
 
 def test_update(i):
-    def check(driver_id, x, y):
-        global query_template
+    def check(driver_id, x, y, available, vehicle_type):
+        global update_template
 
         _cursor: cursor = conn.cursor()
-        _cursor.execute(query_template + str(driver_id))
-        data = _cursor.fetchall()
+        _cursor.execute(update_template + str(driver_id))
+        data = _cursor.fetchall()[0]
         _cursor.close()
 
-        print(driver_id, x, y)
-
-        return reduce(lambda x, y: x and (np.average(np.abs(np.array(y[0]) - np.array(y[1]))) < 1e-5), zip(data, [driver_id, x, y]), True)
+        return reduce(lambda x, y: x and (np.abs(y[0] - y[1]) < 1e-4), zip(data, [driver_id, x, y, available, vehicle_type]), True)
 
 
 
@@ -110,9 +116,15 @@ def test_update(i):
     mess.driver.lat = y
     mess.driver.hash.append(hash_0)
 
+    vehicle_type = np.random.randint(1, 10)
+    mess.driver.vehicle_type = vehicle_type
+
+    available = True if np.random.normal() <= 1 else False
+    mess.driver.available = available
+
     def _consumer():
         time.sleep(0.2)
-        assert(check(i, x, y))
+        assert(check(i, x, y, available, vehicle_type))
 
     def _producer():
         requests.post('http://localhost:8080/query', data=mess.SerializeToString())

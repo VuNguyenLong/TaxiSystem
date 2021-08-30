@@ -58,10 +58,14 @@ def multi_test(ID):
         mess.type = Message.SELECT
         mess.client.id = i
 
-        y = np.random.uniform(low=-90, high=90)
-        x = np.random.uniform(low=-180, high=180)
-        resolution = 3
-        mess.client.hash.append(h3.geo_to_h3(x, y, resolution))
+        x = np.random.uniform(low=10.361150797591193, high=11.14905794904022)
+        y = np.random.uniform(low=106.59572659658203, high=106.67503415273437)
+        resolution = 7
+        hash_0 = h3.geo_to_h3(x, y, resolution)
+        mess.client.hash.append(hash_0)
+
+        vehicle_type = np.random.randint(1, 10)
+        mess.client.vehicle_type = vehicle_type
 
         start = time.time()
         test(mess)
@@ -86,7 +90,7 @@ print("done")
 
 data = pd.DataFrame(records).values.T
 data = pd.DataFrame(np.c_[data[:, 0], data[:, 1], data[:, 1] - data[:, 0]], columns=['start', 'end', 'delta'])
-data.to_csv(f'result_n={size}_f=h70_{N}_v2.csv')
+data.to_csv(f'result_n={size}_f=70_{N}_v2.csv')
 
 print(data.describe())
 plt.hist(data['delta'])

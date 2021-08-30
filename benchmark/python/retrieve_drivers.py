@@ -29,9 +29,14 @@ def retrieve(i, x, y, k = 5):
     mess.type = Message.SELECT
     mess.client.id = i
 
+    x = np.random.uniform(low=10.361150797591193, high=11.14905794904022)
+    y = np.random.uniform(low=106.59572659658203, high=106.67503415273437)
     resolution = 7
     hash_0 = h3.geo_to_h3(x, y, resolution)
     mess.client.hash.append(hash_0)
+
+    vehicle_type = np.random.randint(1, 10)
+    mess.client.vehicle_type = vehicle_type
 
     info = requests.get(f'http://localhost:8080/info?id={mess.client.id}')
     info = RestResponse.FromString(info.content)
