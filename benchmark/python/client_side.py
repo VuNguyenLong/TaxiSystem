@@ -7,7 +7,7 @@ from functools import *
 import json
 import time
 
-CLIENT_ID = 1
+CLIENT_ID = 4
 
 # Initial session
 info = requests.get(f'http://localhost:8080/info?id={CLIENT_ID}')
